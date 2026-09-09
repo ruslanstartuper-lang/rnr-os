@@ -1,0 +1,5095 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RNR OS — Business & Finance OS</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230e7a5c'/><text x='16' y='22' font-size='16' font-weight='800' fill='white' text-anchor='middle' font-family='Arial'>R</text></svg>"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #f2f4f0;
+        --surface: #ffffff;
+        --surface2: #f7f9f6;
+        --ink: #182420;
+        --muted: #68766e;
+        --line: #e2e7e0;
+        --line2: #eef1ec;
+        --brand: #0e7a5c;
+        --brand-2: #0a5c46;
+        --brand-soft: #e3f2ec;
+        --brand-ink: #0b5b45;
+        --amber: #b45309;
+        --amber-soft: #fdf0e0;
+        --red: #d64545;
+        --red-soft: #fdeaea;
+        --blue: #2563eb;
+        --blue-soft: #e7effd;
+        --purple: #7c3aed;
+        --purple-soft: #f0e9fd;
+        --teal: #0d9488;
+        --teal-soft: #e0f4f2;
+        --side: #0c1310;
+        --side-ink: #9db0a6;
+        --side-line: #1c2a23;
+        --side-act: #16241e;
+        --shadow:
+          0 1px 2px rgba(20, 32, 26, 0.05),
+          0 8px 24px -18px rgba(20, 32, 26, 0.25);
+        --r: 14px;
+      }
+      html[data-theme="dark"] {
+        --bg: #0b100e;
+        --surface: #131a16;
+        --surface2: #18211c;
+        --ink: #e6ede8;
+        --muted: #8ba095;
+        --line: #243029;
+        --line2: #1c2620;
+        --brand: #2ec895;
+        --brand-2: #57d9ac;
+        --brand-soft: #12332a;
+        --brand-ink: #7fe0bf;
+        --amber: #f0a13c;
+        --amber-soft: #33270f;
+        --red: #f07a7a;
+        --red-soft: #3a1a1a;
+        --blue: #7aa5f5;
+        --blue-soft: #16233c;
+        --purple: #b195f5;
+        --purple-soft: #251b3c;
+        --teal: #3ecfc0;
+        --teal-soft: #0f2e2b;
+        --side: #0a0f0d;
+        --side-line: #182420;
+        --side-act: #14201a;
+        --shadow:
+          0 1px 2px rgba(0, 0, 0, 0.3), 0 10px 30px -20px rgba(0, 0, 0, 0.6);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        font-size: 15px;
+      }
+      body {
+        font-family: "Manrope", system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--ink);
+        min-height: 100vh;
+      }
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit;
+        color: inherit;
+      }
+      button {
+        cursor: pointer;
+        background: none;
+        border: none;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      ::-webkit-scrollbar {
+        width: 9px;
+        height: 9px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--line);
+        border-radius: 9px;
+      }
+      .num,
+      .kpi b,
+      .brand {
+        font-family: "Space Grotesk", "Manrope", sans-serif;
+      }
+
+      /* ===== Auth ===== */
+      .auth {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 1.05fr 1fr;
+      }
+      .auth-left {
+        background: var(--side);
+        color: #e8f1ec;
+        padding: 48px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+        overflow: hidden;
+      }
+      .auth-left::after {
+        content: "";
+        position: absolute;
+        right: -140px;
+        top: -140px;
+        width: 420px;
+        height: 420px;
+        border-radius: 50%;
+        border: 1.5px solid #1d3a2f;
+      }
+      .auth-left::before {
+        content: "";
+        position: absolute;
+        right: -60px;
+        top: -60px;
+        width: 260px;
+        height: 260px;
+        border-radius: 50%;
+        border: 1.5px solid #1d3a2f;
+      }
+      .auth-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 800;
+        font-size: 1.25rem;
+        letter-spacing: 0.02em;
+      }
+      .logo {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #12a37a, #0a5c46);
+        display: grid;
+        place-items: center;
+        font-family: "Space Grotesk";
+        font-weight: 700;
+        color: #fff;
+        font-size: 1.05rem;
+      }
+      .auth-hero h1 {
+        font-family: "Space Grotesk";
+        font-size: clamp(2rem, 4vw, 3.1rem);
+        line-height: 1.08;
+        margin: 18px 0 14px;
+      }
+      .auth-hero h1 em {
+        font-style: normal;
+        color: #3fd6a5;
+      }
+      .auth-hero p {
+        color: #93a89e;
+        max-width: 420px;
+        line-height: 1.6;
+      }
+      .auth-facts {
+        display: grid;
+        gap: 10px;
+        margin-top: 28px;
+        max-width: 420px;
+      }
+      .auth-facts div {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        color: #bcd0c6;
+        font-size: 0.92rem;
+        border: 1px solid #1c2c24;
+        border-radius: 12px;
+        padding: 11px 14px;
+        background: #0f1713;
+      }
+      .auth-facts svg {
+        color: #3fd6a5;
+        flex: none;
+      }
+      .auth-foot {
+        color: #5f7168;
+        font-size: 0.82rem;
+      }
+      .auth-right {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 24px;
+      }
+      .auth-card {
+        width: 100%;
+        max-width: 420px;
+      }
+      .auth-card h2 {
+        font-family: "Space Grotesk";
+        font-size: 1.7rem;
+        margin-bottom: 6px;
+      }
+      .auth-card .sub {
+        color: var(--muted);
+        margin-bottom: 24px;
+      }
+      .auth-card form {
+        display: grid;
+        gap: 14px;
+      }
+      .auth-alt {
+        margin-top: 18px;
+        text-align: center;
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+      .auth-alt a {
+        color: var(--brand);
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .demo-btn {
+        width: 100%;
+        margin-top: 12px;
+      }
+      .err-box {
+        background: var(--red-soft);
+        color: var(--red);
+        border-radius: 10px;
+        padding: 10px 14px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        display: none;
+      }
+      .err-box.show {
+        display: block;
+      }
+      @media (max-width: 900px) {
+        .auth {
+          grid-template-columns: 1fr;
+        }
+        .auth-left {
+          display: none;
+        }
+      }
+
+      /* ===== Shell ===== */
+      .shell {
+        display: grid;
+        grid-template-columns: 248px 1fr;
+        min-height: 100vh;
+      }
+      .sidebar {
+        background: var(--side);
+        color: var(--side-ink);
+        display: flex;
+        flex-direction: column;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        padding: 20px 14px;
+      }
+      .side-brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #fff;
+        font-weight: 800;
+        padding: 4px 8px 20px;
+      }
+      .side-brand small {
+        display: block;
+        font-weight: 500;
+        color: #5f7168;
+        font-size: 0.68rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .side-nav {
+        display: grid;
+        gap: 2px;
+        flex: 1;
+        overflow-y: auto;
+      }
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        padding: 10px 12px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.93rem;
+        color: var(--side-ink);
+        transition: 0.15s;
+        border: 1px solid transparent;
+      }
+      .nav-item:hover {
+        background: var(--side-act);
+        color: #dbe7e0;
+      }
+      .nav-item.on {
+        background: var(--side-act);
+        color: #fff;
+        border-color: #22352c;
+      }
+      .nav-item.on svg {
+        color: #3fd6a5;
+      }
+      .side-bottom {
+        border-top: 1px solid var(--side-line);
+        padding-top: 14px;
+        display: grid;
+        gap: 12px;
+      }
+      .theme-seg {
+        display: flex;
+        background: #0f1713;
+        border: 1px solid var(--side-line);
+        border-radius: 10px;
+        padding: 3px;
+      }
+      .theme-seg button {
+        flex: 1;
+        display: grid;
+        place-items: center;
+        padding: 7px;
+        border-radius: 8px;
+        color: #6d8177;
+      }
+      .theme-seg button.on {
+        background: var(--side-act);
+        color: #fff;
+      }
+      .side-user {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .avatar {
+        width: 38px;
+        height: 38px;
+        border-radius: 11px;
+        background: linear-gradient(135deg, #12a37a, #0a5c46);
+        color: #fff;
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+        flex: none;
+      }
+      .side-user b {
+        display: block;
+        color: #fff;
+        font-size: 0.9rem;
+        line-height: 1.2;
+      }
+      .side-user span {
+        font-size: 0.75rem;
+        color: #6d8177;
+      }
+      .main {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+      }
+      .topbar {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 26px;
+        border-bottom: 1px solid var(--line);
+        background: var(--surface);
+        position: sticky;
+        top: 0;
+        z-index: 40;
+      }
+      .topbar h1 {
+        font-family: "Space Grotesk";
+        font-size: 1.25rem;
+        flex: 1;
+        min-width: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .seg {
+        display: flex;
+        background: var(--surface2);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 3px;
+      }
+      .seg button {
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: var(--muted);
+      }
+      .seg button.on {
+        background: var(--surface);
+        color: var(--ink);
+        box-shadow: var(--shadow);
+      }
+      .icon-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        display: grid;
+        place-items: center;
+        border: 1px solid var(--line);
+        background: var(--surface);
+        color: var(--muted);
+        position: relative;
+      }
+      .icon-btn:hover {
+        color: var(--ink);
+        border-color: var(--muted);
+      }
+      .bell-dot {
+        position: absolute;
+        top: 6px;
+        right: 7px;
+        min-width: 16px;
+        height: 16px;
+        border-radius: 8px;
+        background: var(--red);
+        color: #fff;
+        font-size: 0.62rem;
+        font-weight: 800;
+        display: grid;
+        place-items: center;
+        padding: 0 4px;
+      }
+      .bell-wrap {
+        position: relative;
+      }
+      .bell-panel {
+        position: absolute;
+        right: 0;
+        top: 46px;
+        width: 360px;
+        max-width: calc(100vw - 30px);
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        box-shadow: var(--shadow);
+        z-index: 60;
+        display: none;
+        overflow: hidden;
+      }
+      .bell-panel.open {
+        display: block;
+      }
+      .bell-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 13px 16px;
+        border-bottom: 1px solid var(--line);
+      }
+      .bell-head b {
+        font-size: 0.95rem;
+      }
+      .bell-head button {
+        font-size: 0.78rem;
+        color: var(--brand);
+        font-weight: 700;
+      }
+      .bell-list {
+        max-height: 340px;
+        overflow-y: auto;
+      }
+      .bell-item {
+        display: flex;
+        gap: 10px;
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--line2);
+        font-size: 0.88rem;
+        line-height: 1.45;
+        cursor: pointer;
+      }
+      .bell-item:hover {
+        background: var(--surface2);
+      }
+      .bell-item .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--brand);
+        flex: none;
+        margin-top: 6px;
+      }
+      .bell-item.read .dot {
+        background: var(--line);
+      }
+      .bell-item.read {
+        color: var(--muted);
+      }
+      .menu-wrap {
+        position: relative;
+      }
+      .menu-panel {
+        position: absolute;
+        right: 0;
+        top: 46px;
+        width: 220px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        box-shadow: var(--shadow);
+        z-index: 60;
+        display: none;
+        padding: 6px;
+      }
+      .menu-panel.open {
+        display: block;
+      }
+      .menu-panel button {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 9px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: var(--ink);
+      }
+      .menu-panel button:hover {
+        background: var(--surface2);
+      }
+      .menu-panel button.danger {
+        color: var(--red);
+      }
+      .page {
+        padding: 24px 26px 90px;
+        max-width: 1280px;
+        width: 100%;
+        margin: 0 auto;
+      }
+
+      /* ===== Mobile nav ===== */
+      .bnav {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--surface);
+        border-top: 1px solid var(--line);
+        z-index: 50;
+        padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
+      }
+      .bnav-in {
+        display: flex;
+        justify-content: space-around;
+      }
+      .bnav button {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+        font-size: 0.66rem;
+        font-weight: 700;
+        color: var(--muted);
+        padding: 6px 10px;
+        border-radius: 10px;
+        min-width: 58px;
+      }
+      .bnav button.on {
+        color: var(--brand);
+      }
+      .bnav button.on svg {
+        transform: translateY(-1px);
+      }
+      @media (max-width: 960px) {
+        .shell {
+          grid-template-columns: 1fr;
+        }
+        .sidebar {
+          display: none;
+        }
+        .bnav {
+          display: block;
+        }
+        .topbar {
+          padding: 12px 16px;
+        }
+        .page {
+          padding: 16px 14px 110px;
+        }
+      }
+
+      /* ===== Components ===== */
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        padding: 20px;
+        box-shadow: var(--shadow);
+      }
+      .card h3 {
+        font-size: 1rem;
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px 18px;
+        border-radius: 11px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        border: 1px solid transparent;
+        transition: 0.15s;
+        white-space: nowrap;
+      }
+      .btn-p {
+        background: var(--brand);
+        color: #fff;
+      }
+      html[data-theme="dark"] .btn-p {
+        color: #06130e;
+      }
+      .btn-p:hover {
+        background: var(--brand-2);
+      }
+      .btn-g {
+        border-color: var(--line);
+        background: var(--surface);
+        color: var(--ink);
+      }
+      .btn-g:hover {
+        border-color: var(--muted);
+      }
+      .btn-d {
+        background: var(--red-soft);
+        color: var(--red);
+      }
+      .btn-d:hover {
+        background: var(--red);
+        color: #fff;
+      }
+      .btn-sm {
+        padding: 7px 12px;
+        font-size: 0.82rem;
+        border-radius: 9px;
+      }
+      .btn-block {
+        width: 100%;
+      }
+      .fld {
+        display: grid;
+        gap: 6px;
+      }
+      .fld > span {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: var(--muted);
+      }
+      .inp {
+        width: 100%;
+        padding: 10px 13px;
+        border: 1.5px solid var(--line);
+        border-radius: 11px;
+        background: var(--surface);
+        color: var(--ink);
+        outline: none;
+        transition: 0.15s;
+      }
+      .inp:focus {
+        border-color: var(--brand);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 15%, transparent);
+      }
+      select.inp {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+      }
+      textarea.inp {
+        resize: vertical;
+      }
+      .grid2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+      .grid3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+      }
+      @media (max-width: 640px) {
+        .grid2,
+        .grid3 {
+          grid-template-columns: 1fr;
+        }
+      }
+      form.stack {
+        display: grid;
+        gap: 14px;
+      }
+
+      .kpis {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+      }
+      @media (max-width: 1000px) {
+        .kpis {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 520px) {
+        .kpis {
+          grid-template-columns: 1fr;
+        }
+      }
+      .kpi {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        padding: 18px;
+        box-shadow: var(--shadow);
+      }
+      .kpi .t {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: var(--muted);
+        font-size: 0.82rem;
+        font-weight: 700;
+      }
+      .kpi .ic {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        display: grid;
+        place-items: center;
+      }
+      .kpi b {
+        display: block;
+        font-size: 1.45rem;
+        margin-top: 10px;
+        letter-spacing: -0.01em;
+      }
+      .kpi small {
+        color: var(--muted);
+        font-size: 0.78rem;
+      }
+      .ic-green {
+        background: var(--brand-soft);
+        color: var(--brand);
+      }
+      .ic-red {
+        background: var(--red-soft);
+        color: var(--red);
+      }
+      .ic-blue {
+        background: var(--blue-soft);
+        color: var(--blue);
+      }
+      .ic-amber {
+        background: var(--amber-soft);
+        color: var(--amber);
+      }
+      .ic-purple {
+        background: var(--purple-soft);
+        color: var(--purple);
+      }
+      .ic-teal {
+        background: var(--teal-soft);
+        color: var(--teal);
+      }
+
+      .bdg {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 3px 10px;
+        border-radius: 20px;
+        font-size: 0.74rem;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+      .b-grey {
+        background: var(--surface2);
+        color: var(--muted);
+        border: 1px solid var(--line);
+      }
+      .b-green {
+        background: var(--brand-soft);
+        color: var(--brand-ink);
+      }
+      .b-red {
+        background: var(--red-soft);
+        color: var(--red);
+      }
+      .b-blue {
+        background: var(--blue-soft);
+        color: var(--blue);
+      }
+      .b-amber {
+        background: var(--amber-soft);
+        color: var(--amber);
+      }
+      .b-purple {
+        background: var(--purple-soft);
+        color: var(--purple);
+      }
+      .b-teal {
+        background: var(--teal-soft);
+        color: var(--teal);
+      }
+
+      .bar {
+        height: 8px;
+        background: var(--surface2);
+        border: 1px solid var(--line2);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .bar i {
+        display: block;
+        height: 100%;
+        background: linear-gradient(90deg, var(--brand), var(--brand-2));
+        border-radius: 8px;
+        transition: 0.4s;
+      }
+      .bar.done i {
+        background: linear-gradient(90deg, #e8a70e, #c2410c);
+      }
+
+      .tbl-wrap {
+        overflow-x: auto;
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        background: var(--surface);
+      }
+      .tbl {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.88rem;
+        min-width: 640px;
+      }
+      .tbl th {
+        text-align: left;
+        padding: 11px 14px;
+        color: var(--muted);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        border-bottom: 1px solid var(--line);
+        background: var(--surface2);
+        white-space: nowrap;
+      }
+      .tbl td {
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--line2);
+        vertical-align: middle;
+      }
+      .tbl tr:last-child td {
+        border-bottom: none;
+      }
+      .tbl tr:hover td {
+        background: var(--surface2);
+      }
+      .row-acts {
+        display: flex;
+        gap: 6px;
+        justify-content: flex-end;
+      }
+      .mini-btn {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        display: grid;
+        place-items: center;
+        border: 1px solid var(--line);
+        color: var(--muted);
+        background: var(--surface);
+      }
+      .mini-btn:hover {
+        color: var(--ink);
+        border-color: var(--muted);
+      }
+      .mini-btn.danger:hover {
+        color: var(--red);
+        border-color: var(--red);
+      }
+
+      .chips {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .chip {
+        padding: 7px 14px;
+        border-radius: 20px;
+        border: 1px solid var(--line);
+        background: var(--surface);
+        font-size: 0.83rem;
+        font-weight: 700;
+        color: var(--muted);
+      }
+      .chip.on {
+        background: var(--brand);
+        border-color: var(--brand);
+        color: #fff;
+      }
+      html[data-theme="dark"] .chip.on {
+        color: #06130e;
+      }
+
+      .empty {
+        border: 1.5px dashed var(--line);
+        border-radius: var(--r);
+        padding: 44px 20px;
+        text-align: center;
+        color: var(--muted);
+        background: var(--surface);
+      }
+      .empty svg {
+        margin-bottom: 10px;
+        opacity: 0.5;
+      }
+      .empty b {
+        display: block;
+        color: var(--ink);
+        margin-bottom: 4px;
+      }
+      .empty .btn {
+        margin-top: 14px;
+      }
+
+      .toolbar {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-bottom: 16px;
+      }
+      .toolbar .grow {
+        flex: 1;
+        min-width: 160px;
+      }
+      .search-wrap {
+        position: relative;
+        flex: 1;
+        min-width: 180px;
+      }
+      .search-wrap svg {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--muted);
+      }
+      .search-wrap .inp {
+        padding-left: 36px;
+      }
+
+      /* Dashboard */
+      .hero {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 18px;
+        flex-wrap: wrap;
+        margin-bottom: 18px;
+      }
+      .hero h2 {
+        font-family: "Space Grotesk";
+        font-size: 1.55rem;
+      }
+      .hero p {
+        color: var(--muted);
+        margin-top: 4px;
+      }
+      .qacts {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .cols {
+        display: grid;
+        grid-template-columns: 1.7fr 1fr;
+        gap: 14px;
+        margin-top: 14px;
+      }
+      @media (max-width: 1000px) {
+        .cols {
+          grid-template-columns: 1fr;
+        }
+      }
+      .list-row {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--line2);
+        font-size: 0.88rem;
+      }
+      .list-row:last-child {
+        border-bottom: none;
+      }
+      .list-row .ic {
+        width: 32px;
+        height: 32px;
+        border-radius: 9px;
+        display: grid;
+        place-items: center;
+        flex: none;
+      }
+      .list-row .tx {
+        flex: 1;
+        min-width: 0;
+      }
+      .list-row .tx b {
+        display: block;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .list-row .tx span {
+        color: var(--muted);
+        font-size: 0.76rem;
+      }
+      .list-row .amt {
+        font-weight: 800;
+        font-family: "Space Grotesk";
+        white-space: nowrap;
+      }
+      .amt.pos {
+        color: var(--brand);
+      }
+      .amt.neg {
+        color: var(--red);
+      }
+      .link-more {
+        display: block;
+        text-align: center;
+        color: var(--brand);
+        font-weight: 700;
+        font-size: 0.85rem;
+        margin-top: 10px;
+      }
+
+      /* Goals */
+      .goals-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+        gap: 14px;
+      }
+      .goal-card .gc-top {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        align-items: flex-start;
+        margin-bottom: 6px;
+      }
+      .goal-card h4 {
+        font-size: 1.05rem;
+      }
+      .goal-card .cat {
+        color: var(--muted);
+        font-size: 0.8rem;
+        margin-bottom: 12px;
+      }
+      .goal-nums {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin: 12px 0;
+      }
+      .goal-nums div {
+        background: var(--surface2);
+        border-radius: 10px;
+        padding: 8px 10px;
+      }
+      .goal-nums span {
+        display: block;
+        font-size: 0.68rem;
+        color: var(--muted);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .goal-nums b {
+        font-family: "Space Grotesk";
+        font-size: 0.92rem;
+      }
+      .gc-foot {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 14px;
+      }
+      .gc-meta {
+        display: flex;
+        gap: 14px;
+        color: var(--muted);
+        font-size: 0.78rem;
+        margin-top: 10px;
+        flex-wrap: wrap;
+      }
+      .gc-meta span {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+      }
+
+      /* Kanban */
+      .kanban {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(215px, 1fr));
+        gap: 12px;
+        overflow-x: auto;
+        padding-bottom: 10px;
+      }
+      .kcol {
+        background: var(--surface2);
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        min-height: 300px;
+        display: flex;
+        flex-direction: column;
+      }
+      .kcol.over {
+        border-color: var(--brand);
+        background: var(--brand-soft);
+      }
+      .kcol-h {
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--line);
+        font-size: 0.82rem;
+        font-weight: 800;
+      }
+      .kcol-h small {
+        display: block;
+        color: var(--muted);
+        font-weight: 600;
+        margin-top: 3px;
+        font-size: 0.74rem;
+      }
+      .kcol-b {
+        padding: 10px;
+        display: grid;
+        gap: 8px;
+        flex: 1;
+        align-content: start;
+      }
+      .kcard {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 11px;
+        padding: 11px;
+        cursor: grab;
+        box-shadow: var(--shadow);
+      }
+      .kcard b {
+        font-size: 0.86rem;
+        display: block;
+        margin-bottom: 4px;
+      }
+      .kcard .sum {
+        font-family: "Space Grotesk";
+        font-weight: 700;
+        font-size: 0.85rem;
+        color: var(--brand);
+      }
+      .kcard-f {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 9px;
+      }
+      .kcard-nav {
+        display: flex;
+        gap: 4px;
+      }
+      .kcard-nav button,
+      .kcard-nav a {
+        width: 24px;
+        height: 24px;
+        border-radius: 6px;
+        border: 1px solid var(--line);
+        display: grid;
+        place-items: center;
+        color: var(--muted);
+        background: var(--surface);
+      }
+
+      /* Analytics */
+      .bars {
+        display: grid;
+        gap: 9px;
+      }
+      .brow {
+        display: grid;
+        grid-template-columns: 130px 1fr auto;
+        gap: 10px;
+        align-items: center;
+        font-size: 0.83rem;
+      }
+      .brow .bn {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: var(--muted);
+        font-weight: 600;
+      }
+      .brow .bt {
+        height: 10px;
+        background: var(--surface2);
+        border-radius: 6px;
+        overflow: hidden;
+      }
+      .brow .bt i {
+        display: block;
+        height: 100%;
+        background: var(--brand);
+        border-radius: 6px;
+      }
+      .brow.exp .bt i {
+        background: var(--red);
+      }
+      .brow b {
+        font-family: "Space Grotesk";
+        font-size: 0.82rem;
+        white-space: nowrap;
+      }
+      .legend {
+        display: flex;
+        gap: 16px;
+        font-size: 0.8rem;
+        color: var(--muted);
+        margin-top: 8px;
+        flex-wrap: wrap;
+      }
+      .legend i {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 3px;
+        margin-right: 5px;
+      }
+      svg.chart {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      /* Modal */
+      .ovl {
+        position: fixed;
+        inset: 0;
+        background: rgba(10, 16, 13, 0.55);
+        z-index: 100;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        padding: 20px;
+        overflow-y: auto;
+      }
+      @media (min-width: 640px) {
+        .ovl {
+          align-items: center;
+        }
+      }
+      .sheet {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        width: 100%;
+        max-width: 540px;
+        box-shadow: 0 24px 70px -20px rgba(0, 0, 0, 0.5);
+        animation: pop 0.18s ease;
+        margin: auto 0;
+      }
+      @media (min-width: 640px) {
+        .sheet {
+          margin: 0;
+        }
+      }
+      .sheet.wide {
+        max-width: 720px;
+      }
+      @keyframes pop {
+        from {
+          transform: translateY(14px);
+          opacity: 0;
+        }
+      }
+      .sheet-h {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 22px;
+        border-bottom: 1px solid var(--line);
+      }
+      .sheet-h h3 {
+        font-family: "Space Grotesk";
+        font-size: 1.1rem;
+      }
+      .sheet-b {
+        padding: 22px;
+        max-height: 72vh;
+        overflow-y: auto;
+      }
+      .sheet-f {
+        padding: 16px 22px;
+        border-top: 1px solid var(--line);
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+      }
+
+      /* Toast */
+      #toasts {
+        position: fixed;
+        top: 18px;
+        right: 18px;
+        z-index: 200;
+        display: grid;
+        gap: 9px;
+        max-width: min(380px, calc(100vw - 30px));
+      }
+      .toast {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-left: 4px solid var(--brand);
+        border-radius: 12px;
+        padding: 13px 16px;
+        box-shadow: var(--shadow);
+        font-size: 0.89rem;
+        font-weight: 600;
+        animation: tin 0.25s ease;
+      }
+      .toast.err {
+        border-left-color: var(--red);
+      }
+      .toast.warn {
+        border-left-color: var(--amber);
+      }
+      .toast svg {
+        flex: none;
+        margin-top: 1px;
+        color: var(--brand);
+      }
+      .toast.err svg {
+        color: var(--red);
+      }
+      .toast.warn svg {
+        color: var(--amber);
+      }
+      @keyframes tin {
+        from {
+          transform: translateX(30px);
+          opacity: 0;
+        }
+      }
+
+      .tabs {
+        display: flex;
+        gap: 4px;
+        background: var(--surface2);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 4px;
+        width: max-content;
+        max-width: 100%;
+        overflow-x: auto;
+        margin-bottom: 16px;
+      }
+      .tabs button {
+        padding: 8px 16px;
+        border-radius: 9px;
+        font-weight: 700;
+        font-size: 0.85rem;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+      .tabs button.on {
+        background: var(--surface);
+        color: var(--ink);
+        box-shadow: var(--shadow);
+      }
+      .page-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 16px;
+      }
+      .page-head p {
+        color: var(--muted);
+        font-size: 0.88rem;
+        margin-top: 3px;
+      }
+      .set-grid {
+        display: grid;
+        gap: 14px;
+        max-width: 640px;
+      }
+      .alloc-row {
+        display: grid;
+        grid-template-columns: 1fr 140px 34px;
+        gap: 8px;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+      .pct-big {
+        font-family: "Space Grotesk";
+        font-size: 1.6rem;
+        font-weight: 700;
+      }
+      .hint {
+        font-size: 0.8rem;
+        color: var(--muted);
+        margin-top: 6px;
+      }
+      .danger-zone {
+        border: 1.5px solid var(--red);
+        border-radius: var(--r);
+        padding: 18px;
+        background: var(--red-soft);
+      }
+      input[type="range"] {
+        accent-color: var(--brand);
+        width: 100%;
+      }
+      .task-row td:first-child {
+        width: 36px;
+      }
+      .cbx {
+        width: 20px;
+        height: 20px;
+        accent-color: var(--brand);
+        cursor: pointer;
+      }
+      @media (max-width: 640px) {
+        .hide-m {
+          display: none !important;
+        }
+        .brow {
+          grid-template-columns: 90px 1fr auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div
+        style="
+          display: grid;
+          place-items: center;
+          min-height: 100vh;
+          color: #68766e;
+          font-family: sans-serif;
+        "
+      >
+        Загрузка RNR OS…
+      </div>
+    </div>
+    <div id="toasts"></div>
+    <div id="modal-root"></div>
+
+    <script>
+      /* ============================================================
+   RNR OS — Business & Finance OS
+   Слой хранения (DB API) изолирован: при миграции на
+   Express + MongoDB заменяются только функции этого блока.
+============================================================ */
+
+      /* ---------- Константы справочников ---------- */
+      const EXP_CATS = [
+        "Реклама",
+        "Транспорт",
+        "Еда",
+        "Оборудование",
+        "Зарплата",
+        "Сервисы",
+        "Бизнес",
+        "Личные",
+        "Другое",
+      ];
+      const INC_CATS = [
+        "Проект",
+        "Продажа",
+        "Услуги",
+        "Зарплата",
+        "Инвестиции",
+        "Другое",
+      ];
+      const GOAL_CATS = ["Личная", "Бизнес", "Покупка", "Накопление", "Другое"];
+      const GOAL_SRC = [
+        "Доход от проекта",
+        "Личные деньги",
+        "Продажа",
+        "Зарплата",
+        "Бизнес",
+        "Другое",
+      ];
+      const PRIORITIES = ["Низкий", "Средний", "Высокий", "Критический"];
+      const CLIENT_ST = [
+        "Новый",
+        "Переговоры",
+        "Ожидает ответа",
+        "Коммерческое предложение",
+        "В работе",
+        "Завершён",
+        "Оплачен",
+        "Отказ",
+        "Архив",
+      ];
+      const PROJ_ST = [
+        "Новый",
+        "В работе",
+        "На проверке",
+        "Ожидает клиента",
+        "Завершён",
+        "Отменён",
+      ];
+      const TASK_ST = ["Запланировано", "В работе", "Ожидает", "Готово"];
+      const STAGES = [
+        "Новые лиды",
+        "Контакт установлен",
+        "Переговоры",
+        "Предложение",
+        "Согласование",
+        "Оплата",
+        "Сделка",
+      ];
+      const MONTHS_RU = [
+        "янв",
+        "фев",
+        "мар",
+        "апр",
+        "май",
+        "июн",
+        "июл",
+        "авг",
+        "сен",
+        "окт",
+        "ноя",
+        "дек",
+      ];
+
+      /* ---------- Утилиты ---------- */
+      const $ = (s) => document.querySelector(s);
+      const $$ = (s) => [...document.querySelectorAll(s)];
+      const uid = () =>
+        Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+      const esc = (s) =>
+        String(s ?? "").replace(
+          /[&<>"']/g,
+          (m) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            })[m],
+        );
+      const d2s = (d) => {
+        const x = new Date(d);
+        return (
+          x.getFullYear() +
+          "-" +
+          String(x.getMonth() + 1).padStart(2, "0") +
+          "-" +
+          String(x.getDate()).padStart(2, "0")
+        );
+      };
+      const todayStr = () => d2s(new Date());
+      const fmtD = (iso) => {
+        if (!iso) return "—";
+        const [y, m, d] = String(iso).slice(0, 10).split("-");
+        return `${d}.${m}.${y}`;
+      };
+      const daysTo = (iso) => {
+        const t = new Date();
+        t.setHours(0, 0, 0, 0);
+        const d = new Date(String(iso).slice(0, 10) + "T00:00:00");
+        return Math.round((d - t) / 864e5);
+      };
+      const ago = (n) => {
+        const d = new Date();
+        d.setDate(d.getDate() - n);
+        return d2s(d);
+      };
+      const num = (n) => Math.round(Number(n) || 0).toLocaleString("ru-RU");
+      const pm = (v) => {
+        const s = String(v).replace(/\s/g, "").replace(",", ".");
+        const n = parseFloat(s);
+        return isNaN(n) ? 0 : n;
+      };
+      const initials = (n) =>
+        String(n || "?")
+          .trim()
+          .split(/\s+/)
+          .map((w) => w[0])
+          .slice(0, 2)
+          .join("")
+          .toUpperCase();
+      const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+
+      /* ---------- DB API (адаптер хранения) ---------- */
+      const Store = {
+        users: () => JSON.parse(localStorage.getItem("rnr_users") || "[]"),
+        saveUsers: (u) => localStorage.setItem("rnr_users", JSON.stringify(u)),
+        session: () => localStorage.getItem("rnr_session"),
+        setSession: (id) =>
+          id
+            ? localStorage.setItem("rnr_session", id)
+            : localStorage.removeItem("rnr_session"),
+        data: (uid) =>
+          JSON.parse(localStorage.getItem("rnr_data_" + uid) || "null"),
+        saveData: (uid, d) =>
+          localStorage.setItem("rnr_data_" + uid, JSON.stringify(d)),
+      };
+      async function hashPass(pw, salt) {
+        const msg = salt + "::" + pw;
+        try {
+          const buf = await crypto.subtle.digest(
+            "SHA-256",
+            new TextEncoder().encode(msg),
+          );
+          return [...new Uint8Array(buf)]
+            .map((b) => b.toString(16).padStart(2, "0"))
+            .join("");
+        } catch (e) {
+          // fallback для небезопасного контекста
+          let h = 5381;
+          for (let i = 0; i < msg.length; i++) {
+            h = ((h << 5) + h + msg.charCodeAt(i)) >>> 0;
+          }
+          return "x" + h.toString(16);
+        }
+      }
+
+      /* ---------- Состояние ---------- */
+      let USER = null,
+        DB = null;
+      const UI = {
+        finTab: "income",
+        goalTab: "active",
+        taskTab: "all",
+        taskProj: "",
+        clientSearch: "",
+        clientStatus: "",
+        clientSort: "name",
+        histF: "all",
+        anPeriod: 30,
+        ghSort: "date",
+        ghSrc: "",
+      };
+
+      function emptyDB() {
+        return {
+          goals: [],
+          goalTx: [],
+          incomes: [],
+          expenses: [],
+          clients: [],
+          projects: [],
+          tasks: [],
+          leads: [],
+          activities: [],
+          notifRead: {},
+          settings: {
+            currency: "UZS",
+            usdRate: 12900,
+            theme: "light",
+            notifGoals: true,
+            notifDeadlines: true,
+            notifTasks: true,
+            notifPayments: true,
+            notifIncome: true,
+          },
+        };
+      }
+      function save() {
+        if (USER && DB) Store.saveData(USER.id, DB);
+      }
+      function loadUser(id) {
+        USER = Store.users().find((u) => u.id === id) || null;
+        DB = USER ? Store.data(USER.id) || emptyDB() : null;
+        if (USER && !Store.data(USER.id)) save();
+      }
+
+      /* ---------- Валюта ---------- */
+      const cur = () => DB?.settings.currency || "UZS";
+      const rate = () => Number(DB?.settings.usdRate) || 12900;
+      function M(uzs, sign = "") {
+        if (cur() === "USD") {
+          const v = uzs / rate();
+          return (
+            sign +
+            (v >= 1000
+              ? num(v)
+              : v.toLocaleString("ru-RU", { maximumFractionDigits: 2 })) +
+            " $"
+          );
+        }
+        return sign + num(uzs) + " сум";
+      }
+      const toUZS = (v) => (cur() === "USD" ? pm(v) * rate() : pm(v));
+      const fromUZS = (uzs) =>
+        cur() === "USD"
+          ? (uzs / rate()).toLocaleString("ru-RU", { maximumFractionDigits: 2 })
+          : (uzs ?? 0);
+
+      /* ---------- Иконки (Lucide-стиль) ---------- */
+      const P_ = {
+        home: '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/>',
+        target:
+          '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+        wallet:
+          '<rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>',
+        users:
+          '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+        briefcase:
+          '<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>',
+        check:
+          '<polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',
+        filter:
+          '<polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>',
+        chart:
+          '<line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/>',
+        clock:
+          '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+        sliders:
+          '<line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/>',
+        bell: '<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>',
+        sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>',
+        moon: '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>',
+        monitor:
+          '<rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>',
+        plus: '<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>',
+        x: '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',
+        edit: '<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>',
+        trash:
+          '<polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',
+        logout:
+          '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>',
+        trend:
+          '<polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>',
+        trendD:
+          '<polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/>',
+        calendar:
+          '<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',
+        phone:
+          '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>',
+        mail: '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/>',
+        send: '<line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>',
+        inst: '<rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>',
+        left: '<polyline points="15 18 9 12 15 6"/>',
+        right: '<polyline points="9 18 15 12 9 6"/>',
+        down: '<polyline points="6 9 12 15 18 9"/>',
+        search:
+          '<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',
+        alert:
+          '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>',
+        checkc:
+          '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>',
+        hist: '<path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><polyline points="12 7 12 12 15 15"/>',
+        zap: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+        more: '<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>',
+        card: '<rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>',
+        flag: '<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>',
+      };
+      const I = (n, s = 18) =>
+        `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${P_[n] || ""}</svg>`;
+
+      /* ---------- Toast / Modal / Confirm ---------- */
+      function toast(msg, type = "ok") {
+        const t = document.createElement("div");
+        t.className = "toast " + type;
+        t.innerHTML =
+          (type === "ok"
+            ? I("checkc", 17)
+            : type === "err"
+              ? I("alert", 17)
+              : I("zap", 17)) + `<span>${msg}</span>`;
+        $("#toasts").appendChild(t);
+        setTimeout(() => {
+          t.style.opacity = "0";
+          t.style.transition = ".4s";
+          setTimeout(() => t.remove(), 400);
+        }, 3400);
+      }
+      function modal(title, body, { wide = false, foot = "" } = {}) {
+        closeModal();
+        const o = document.createElement("div");
+        o.className = "ovl";
+        o.innerHTML = `<div class="sheet${wide ? " wide" : ""}"><div class="sheet-h"><h3>${title}</h3><button class="mini-btn" data-act="close-modal">${I("x", 16)}</button></div><div class="sheet-b">${body}</div>${foot ? `<div class="sheet-f">${foot}</div>` : ""}</div>`;
+        o.addEventListener("mousedown", (e) => {
+          if (e.target === o) closeModal();
+        });
+        $("#modal-root").appendChild(o);
+        return o;
+      }
+      function closeModal() {
+        $("#modal-root").innerHTML = "";
+      }
+      function ask(msg, { ok = "Удалить", title = "Подтверждение" } = {}) {
+        return new Promise((res) => {
+          const o = modal(title, `<p style="line-height:1.6">${msg}</p>`, {
+            foot: `<button class="btn btn-g" data-r="0">Отмена</button><button class="btn btn-d" data-r="1">${ok}</button>`,
+          });
+          o.querySelector(".sheet-f").addEventListener("click", (e) => {
+            const b = e.target.closest("[data-r]");
+            if (!b) return;
+            const v = b.dataset.r === "1";
+            closeModal();
+            res(v);
+          });
+        });
+      }
+
+      /* ---------- Поля форм ---------- */
+      const F = (label, inner) =>
+        `<label class="fld"><span>${label}</span>${inner}</label>`;
+      const TI = (n, v = "", ph = "", type = "text", ex = "") =>
+        `<input class="inp" type="${type}" name="${n}" value="${esc(v)}" placeholder="${esc(ph)}" ${ex}>`;
+      const TA = (n, v = "", ph = "") =>
+        `<textarea class="inp" name="${n}" rows="2" placeholder="${esc(ph)}">${esc(v)}</textarea>`;
+      function TS(n, opts, v = "", ph = "Выберите…") {
+        return `<select class="inp" name="${n}">${ph ? `<option value="">${ph}</option>` : ""}${opts
+          .map((o) => {
+            const [val, txt] = Array.isArray(o) ? o : [o, o];
+            return `<option value="${esc(val)}"${String(val) === String(v) ? " selected" : ""}>${esc(txt)}</option>`;
+          })
+          .join("")}</select>`;
+      }
+      const TD = (n, v) => TI(n, v || todayStr(), "", "date");
+
+      /* ---------- Журнал действий ---------- */
+      function act(type, text, amount = null) {
+        DB.activities.unshift({
+          id: uid(),
+          ts: Date.now(),
+          date: todayStr(),
+          type,
+          text,
+          amount,
+        });
+        if (DB.activities.length > 600) DB.activities.length = 600;
+      }
+
+      /* ---------- Расчёты ---------- */
+      function totals() {
+        const allInc = DB.incomes.reduce((s, i) => s + Number(i.amount), 0);
+        const allExp = DB.expenses.reduce((s, i) => s + Number(i.amount), 0);
+        const now = new Date(),
+          ym =
+            now.getFullYear() +
+            "-" +
+            String(now.getMonth() + 1).padStart(2, "0");
+        const mInc = DB.incomes
+          .filter((i) => String(i.date).startsWith(ym))
+          .reduce((s, i) => s + Number(i.amount), 0);
+        const mExp = DB.expenses
+          .filter((i) => String(i.date).startsWith(ym))
+          .reduce((s, i) => s + Number(i.amount), 0);
+        const prev = new Date(now.getFullYear(), now.getMonth() - 1, 1),
+          pym =
+            prev.getFullYear() +
+            "-" +
+            String(prev.getMonth() + 1).padStart(2, "0");
+        const pInc = DB.incomes
+          .filter((i) => String(i.date).startsWith(pym))
+          .reduce((s, i) => s + Number(i.amount), 0);
+        return {
+          bal: allInc - allExp,
+          allInc,
+          allExp,
+          mInc,
+          mExp,
+          mProfit: mInc - mExp,
+          pInc,
+        };
+      }
+      const goalById = (id) => DB.goals.find((g) => g.id === id);
+      const clientById = (id) => DB.clients.find((c) => c.id === id);
+      const projectById = (id) => DB.projects.find((p) => p.id === id);
+      function goalStats(g) {
+        const saved = g.saved,
+          remain = Math.max(0, g.target - saved),
+          pct = g.target > 0 ? clamp((saved / g.target) * 100, 0, 100) : 0;
+        const txs = DB.goalTx.filter((t) => t.goalId === g.id).length;
+        return { saved, remain, pct, txs };
+      }
+      function recomputeGoalTx(goalId) {
+        const txs = DB.goalTx
+          .filter((t) => t.goalId === goalId)
+          .sort((a, b) =>
+            a.date < b.date
+              ? -1
+              : a.date > b.date
+                ? 1
+                : (a.ts || 0) - (b.ts || 0),
+          );
+        let run = 0;
+        txs.forEach((t) => {
+          run += Number(t.amount);
+          t.balanceAfter = run;
+        });
+        const g = goalById(goalId);
+        if (g) {
+          g.saved = run;
+          if (g.status === "active" && run >= g.target) {
+            g.status = "done";
+            toast(`Цель «${esc(g.name)}» выполнена! 🎉`);
+          }
+          if (g.status === "done" && run < g.target) g.status = "active";
+        }
+      }
+
+      /* ---------- Уведомления ---------- */
+      function computeNotifs() {
+        const s = DB.settings,
+          out = [];
+        if (s.notifGoals)
+          DB.goals
+            .filter((g) => g.status === "active")
+            .slice(0, 3)
+            .forEach((g) => {
+              const { remain } = goalStats(g);
+              if (remain > 0)
+                out.push({
+                  key: "goal-" + g.id,
+                  icon: "target",
+                  text: `До цели «${g.name}» осталось ${M(remain)}`,
+                });
+            });
+        if (s.notifDeadlines)
+          DB.projects
+            .filter(
+              (p) => !["Завершён", "Отменён"].includes(p.status) && p.deadline,
+            )
+            .forEach((p) => {
+              const d = daysTo(p.deadline);
+              if (d < 0)
+                out.push({
+                  key: "pdl-" + p.id,
+                  icon: "alert",
+                  text: `Проект «${p.name}» просрочен на ${-d} дн.`,
+                });
+              else if (d <= 3)
+                out.push({
+                  key: "pdl-" + p.id,
+                  icon: "calendar",
+                  text:
+                    d === 0
+                      ? `Сегодня дедлайн проекта «${p.name}»`
+                      : `Через ${d} дн. дедлайн проекта «${p.name}»`,
+                });
+            });
+        if (s.notifTasks) {
+          const t = todayStr();
+          const today = DB.tasks.filter(
+            (x) => x.status !== "Готово" && x.deadline === t,
+          ).length;
+          const over = DB.tasks.filter(
+            (x) => x.status !== "Готово" && x.deadline && x.deadline < t,
+          ).length;
+          if (today)
+            out.push({
+              key: "task-today",
+              icon: "check",
+              text: `Сегодня ${today} задач${today === 1 ? "а" : today < 5 ? "и" : ""}`,
+            });
+          if (over)
+            out.push({
+              key: "task-over",
+              icon: "alert",
+              text: `Просроченных задач: ${over}`,
+            });
+        }
+        if (s.notifPayments)
+          DB.goals
+            .filter((g) => g.status === "obligation" && g.obligation)
+            .forEach((g) => {
+              const d = daysTo(g.obligation.next);
+              if (d >= 0 && d <= 5)
+                out.push({
+                  key: "obl-" + g.id,
+                  icon: "card",
+                  text:
+                    d === 0
+                      ? `Сегодня платёж по «${g.name}» — ${M(g.obligation.monthly)}`
+                      : `Следующий платёж по «${g.name}» через ${d} дн.`,
+                });
+            });
+        if (s.notifIncome) {
+          const t = totals();
+          if (t.pInc > 0 && t.mInc > t.pInc) {
+            const g = Math.round(((t.mInc - t.pInc) / t.pInc) * 100);
+            out.push({
+              key: "inc-grow",
+              icon: "trend",
+              text: `Доход в этом месяце выше прошлого на ${g}%`,
+            });
+          }
+        }
+        return out;
+      }
+
+      /* ---------- Графики (чистый SVG) ---------- */
+      function lineChart(buckets, { h = 210 } = {}) {
+        const W = 760,
+          Hh = h,
+          P = 30;
+        const maxV = Math.max(1, ...buckets.flatMap((b) => [b.inc, b.exp]));
+        const x = (i) =>
+          buckets.length > 1
+            ? P + (i * (W - 2 * P)) / (buckets.length - 1)
+            : W / 2;
+        const y = (v) => Hh - P - (v / maxV) * (Hh - 2 * P);
+        const path = (k) =>
+          buckets
+            .map(
+              (b, i) =>
+                (i ? "L" : "M") + x(i).toFixed(1) + " " + y(b[k]).toFixed(1),
+            )
+            .join(" ");
+        let grid = "";
+        for (let i = 0; i <= 4; i++) {
+          const gy = P + (i * (Hh - 2 * P)) / 4;
+          grid += `<line x1="${P}" y1="${gy}" x2="${W - P}" y2="${gy}" stroke="var(--line2)" stroke-width="1"/>`;
+        }
+        const lbl = (i) =>
+          `<text x="${x(i)}" y="${Hh - 8}" font-size="10" fill="var(--muted)" text-anchor="middle">${buckets[i].label}</text>`;
+        const li = [
+          0,
+          Math.floor((buckets.length - 1) / 2),
+          buckets.length - 1,
+        ];
+        const dots = (k) =>
+          buckets
+            .map(
+              (b, i) =>
+                `<circle cx="${x(i)}" cy="${y(b[k])}" r="2.6" fill="var(--${k === "inc" ? "brand" : "red"})"><title>${buckets[i].label}: ${M(b[k])}</title></circle>`,
+            )
+            .join("");
+        return `<svg class="chart" viewBox="0 0 ${W} ${Hh}">${grid}<path d="${path("inc")}" fill="none" stroke="var(--brand)" stroke-width="2.4" stroke-linejoin="round"/><path d="${path("exp")}" fill="none" stroke="var(--red)" stroke-width="2" stroke-dasharray="1 0" stroke-linejoin="round" opacity=".85"/>${dots("inc")}${dots("exp")}${li.map(lbl).join("")}</svg>
+  <div class="legend"><span><i style="background:var(--brand)"></i>Доходы</span><span><i style="background:var(--red)"></i>Расходы</span></div>`;
+      }
+      function balanceChart(buckets) {
+        let run = 0;
+        const pts = buckets.map((b) => ((run += b.inc - b.exp), run));
+        const W = 760,
+          Hh = 200,
+          P = 30,
+          min = Math.min(0, ...pts),
+          max = Math.max(1, ...pts);
+        const x = (i) =>
+          pts.length > 1 ? P + (i * (W - 2 * P)) / (pts.length - 1) : W / 2;
+        const y = (v) => Hh - P - ((v - min) / (max - min || 1)) * (Hh - 2 * P);
+        const d = pts
+          .map(
+            (v, i) => (i ? "L" : "M") + x(i).toFixed(1) + " " + y(v).toFixed(1),
+          )
+          .join(" ");
+        return `<svg class="chart" viewBox="0 0 ${W} ${Hh}"><path d="${d} L${x(pts.length - 1)} ${Hh - P} L${x(0)} ${Hh - P} Z" fill="var(--brand-soft)" opacity=".7"/><path d="${d}" fill="none" stroke="var(--brand)" stroke-width="2.4"/>${pts.map((v, i) => `<circle cx="${x(i)}" cy="${y(v)}" r="2.4" fill="var(--brand)"><title>${buckets[i].label}: ${M(v)}</title></circle>`).join("")}</svg>`;
+      }
+      function barList(items, { exp = false } = {}) {
+        if (!items.length)
+          return `<div class="empty" style="padding:20px">Нет данных за период</div>`;
+        const max = Math.max(...items.map((i) => i.value));
+        return `<div class="bars">${items.map((i) => `<div class="brow${exp ? " exp" : ""}"><span class="bn">${esc(i.label)}</span><span class="bt"><i style="width:${Math.max(3, (i.value / max) * 100)}%"></i></span><b>${M(i.value)}</b></div>`).join("")}</div>`;
+      }
+      function bucketsFor(days) {
+        const inc = {},
+          exp = {};
+        DB.incomes.forEach((i) => {
+          inc[i.date] = (inc[i.date] || 0) + Number(i.amount);
+        });
+        DB.expenses.forEach((i) => {
+          exp[i.date] = (exp[i.date] || 0) + Number(i.amount);
+        });
+        const res = [],
+          now = new Date();
+        if (days <= 45) {
+          for (let i = days - 1; i >= 0; i--) {
+            const d = new Date(now);
+            d.setDate(d.getDate() - i);
+            const k = d2s(d);
+            res.push({
+              label: d.getDate() + "." + (d.getMonth() + 1),
+              inc: inc[k] || 0,
+              exp: exp[k] || 0,
+            });
+          }
+        } else {
+          const months = Math.round(days / 30);
+          for (let i = months - 1; i >= 0; i--) {
+            const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+            const k =
+              d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0");
+            let a = 0,
+              b = 0;
+            Object.keys(inc).forEach((dt) => {
+              if (dt.startsWith(k)) a += inc[dt];
+            });
+            Object.keys(exp).forEach((dt) => {
+              if (dt.startsWith(k)) b += exp[dt];
+            });
+            res.push({
+              label:
+                MONTHS_RU[d.getMonth()] +
+                " " +
+                String(d.getFullYear()).slice(2),
+              inc: a,
+              exp: b,
+            });
+          }
+        }
+        return res;
+      }
+
+      /* ---------- Статусы → бейджи ---------- */
+      const stColor = (s) =>
+        ({
+          Новый: "b-blue",
+          Переговоры: "b-amber",
+          "Ожидает ответа": "b-purple",
+          "Коммерческое предложение": "b-purple",
+          "В работе": "b-teal",
+          Завершён: "b-green",
+          Оплачен: "b-green",
+          Отказ: "b-red",
+          Архив: "b-grey",
+          "На проверке": "b-amber",
+          "Ожидает клиента": "b-purple",
+          Отменён: "b-grey",
+          Запланировано: "b-grey",
+          Ожидает: "b-amber",
+          Готово: "b-green",
+          Низкий: "b-grey",
+          Средний: "b-blue",
+          Высокий: "b-amber",
+          Критический: "b-red",
+          active: "b-teal",
+          done: "b-green",
+          obligation: "b-purple",
+        })[s] || "b-grey";
+      const bdg = (s) => `<span class="bdg ${stColor(s)}">${esc(s)}</span>`;
+      const emptyBox = (icon, title, sub, btn = "") =>
+        `<div class="empty">${I(icon, 34)}<b>${title}</b>${sub || ""}${btn}</div>`;
+
+      /* ============================================================
+   АВТОРИЗАЦИЯ
+============================================================ */
+      function pageAuth(mode) {
+        $("#app").innerHTML = `
+  <div class="auth">
+    <div class="auth-left">
+      <div class="auth-brand"><div class="logo">R</div>RNR OS</div>
+      <div class="auth-hero">
+        <h1>Единая система управления <em>бизнесом и финансами</em></h1>
+        <p>Цели, клиенты, проекты, продажи и деньги — в одном месте. Все расчёты автоматические, все разделы связаны между собой.</p>
+        <div class="auth-facts">
+          <div>${I("target", 18)} Финансовые цели с накоплениями и обязательствами</div>
+          <div>${I("wallet", 18)} Доходы, расходы и распределение прибыли</div>
+          <div>${I("users", 18)} CRM: клиенты, проекты, задачи и воронка продаж</div>
+          <div>${I("chart", 18)} Аналитика в реальном времени — 5 периодов</div>
+        </div>
+      </div>
+      <div class="auth-foot">RNR OS · Business & Finance OS · ${new Date().getFullYear()}</div>
+    </div>
+    <div class="auth-right"><div class="auth-card">
+      <h2>${mode === "reg" ? "Создать аккаунт" : "С возвращением"}</h2>
+      <p class="sub">${mode === "reg" ? "Начните управлять бизнесом за 30 секунд" : "Войдите, чтобы продолжить работу"}</p>
+      <div class="err-box" id="auth-err"></div>
+      ${
+        mode === "reg"
+          ? `
+      <form data-form="register" class="stack" style="margin-top:18px">
+        ${F("Имя", TI("name", "", "Например, Руслан"))}
+        ${F("Email", TI("email", "", "you@mail.com", "email"))}
+        ${F("Пароль", TI("pass", "", "Минимум 6 символов", "password"))}
+        ${F("Подтверждение пароля", TI("pass2", "", "Повторите пароль", "password"))}
+        <button class="btn btn-p btn-block" type="submit">Зарегистрироваться ${I("right", 16)}</button>
+      </form>`
+          : `
+      <form data-form="login" class="stack" style="margin-top:18px">
+        ${F("Email", TI("email", "", "you@mail.com", "email"))}
+        ${F("Пароль", TI("pass", "", "Ваш пароль", "password"))}
+        <button class="btn btn-p btn-block" type="submit">Войти ${I("right", 16)}</button>
+      </form>
+      <button class="btn btn-g demo-btn" data-act="demo-login">${I("zap", 16)} Войти в демо-режим</button>`
+      }
+      <div class="auth-alt">${
+        mode === "reg"
+          ? `Уже есть аккаунт? <a data-act="go-login">Войти</a>`
+          : `Нет аккаунта? <a data-act="go-register">Зарегистрироваться</a>`
+      }</div>
+    </div></div>
+  </div>`;
+      }
+      function authErr(msg) {
+        const e = $("#auth-err");
+        if (e) {
+          e.textContent = msg;
+          e.classList.add("show");
+        }
+      }
+
+      async function seedDemoData() {
+        DB = emptyDB();
+        const g1 = uid(),
+          g2 = uid(),
+          g3 = uid(),
+          c1 = uid(),
+          c2 = uid(),
+          c3 = uid(),
+          p1 = uid(),
+          p2 = uid(),
+          p3 = uid();
+        DB.goals = [
+          {
+            id: g1,
+            name: "Chevrolet Onix",
+            target: 75e6,
+            saved: 43750000,
+            deadline: ago(-120),
+            priority: "Высокий",
+            category: "Покупка",
+            desc: "Покупка автомобиля",
+            status: "active",
+            createdAt: ago(40),
+          },
+          {
+            id: g2,
+            name: "MacBook",
+            target: 30e6,
+            saved: 12e6,
+            deadline: ago(-90),
+            priority: "Средний",
+            category: "Покупка",
+            desc: "MacBook для работы",
+            status: "active",
+            createdAt: ago(35),
+          },
+          {
+            id: g3,
+            name: "Финансовая подушка",
+            target: 50e6,
+            saved: 18e6,
+            deadline: ago(-200),
+            priority: "Высокий",
+            category: "Накопление",
+            desc: "Резерв на 6 месяцев жизни",
+            status: "active",
+            createdAt: ago(30),
+          },
+        ];
+        const tx = (g, a, d, s, c, ba) => ({
+          id: uid(),
+          goalId: g,
+          amount: a,
+          date: d,
+          source: s,
+          comment: c,
+          balanceAfter: ba,
+          ts: new Date(d).getTime(),
+        });
+        DB.goalTx = [
+          tx(g1, 15e6, ago(30), "Доход от проекта", "Стартовый взнос", 15e6),
+          tx(g1, 12750000, ago(20), "Доход от проекта", "", 27750000),
+          tx(g1, 10e6, ago(12), "Продажа", "", 37750000),
+          tx(g1, 4e6, ago(5), "Личные деньги", "", 41750000),
+          tx(g1, 2e6, ago(2), "Доход от проекта", "", 43750000),
+          tx(g2, 8e6, ago(15), "Зарплата", "", 8e6),
+          tx(g2, 4e6, ago(6), "Доход от проекта", "", 12e6),
+          tx(g3, 18e6, ago(25), "Бизнес", "", 18e6),
+        ];
+        DB.clients = [
+          {
+            id: c1,
+            company: "AutoCity",
+            contact: "Азиз Каримов",
+            phone: "+998 90 123 45 67",
+            email: "info@autocity.uz",
+            instagram: "@autocity_uz",
+            telegram: "@autocity",
+            niche: "Автосалон",
+            source: "Instagram",
+            service: "Разработка сайта",
+            price: 12e6,
+            paid: 7e6,
+            status: "В работе",
+            comment: "Нужен запуск до конца месяца",
+            createdAt: ago(20),
+          },
+          {
+            id: c2,
+            company: "Real House",
+            contact: "Малик Юсупов",
+            phone: "+998 91 777 00 11",
+            email: "hello@realhouse.uz",
+            instagram: "@realhouse",
+            telegram: "",
+            niche: "Недвижимость",
+            source: "Рекомендация",
+            service: "Сайт + каталог",
+            price: 15e6,
+            paid: 0,
+            status: "Переговоры",
+            comment: "Обсуждаем каталог объектов",
+            createdAt: ago(12),
+          },
+          {
+            id: c3,
+            company: "Coffee Point",
+            contact: "Нилуфар Рахим",
+            phone: "+998 93 555 22 33",
+            email: "hi@coffeepoint.uz",
+            instagram: "@coffeepoint",
+            telegram: "@coffeepoint",
+            niche: "Кофейня",
+            source: "Telegram",
+            service: "Лендинг",
+            price: 6e6,
+            paid: 6e6,
+            status: "Оплачен",
+            comment: "",
+            createdAt: ago(28),
+          },
+        ];
+        DB.projects = [
+          {
+            id: p1,
+            name: "Сайт автосалона",
+            clientId: c1,
+            service: "Разработка сайта",
+            price: 12e6,
+            paid: 7e6,
+            startDate: ago(18),
+            deadline: ago(-12),
+            status: "В работе",
+            progress: 65,
+            desc: "Корпоративный сайт с каталогом авто",
+          },
+          {
+            id: p2,
+            name: "Сайт недвижимости",
+            clientId: c2,
+            service: "Сайт + каталог",
+            price: 15e6,
+            paid: 0,
+            startDate: ago(8),
+            deadline: ago(-30),
+            status: "В работе",
+            progress: 30,
+            desc: "Каталог объектов с фильтрами",
+          },
+          {
+            id: p3,
+            name: "Сайт кафе",
+            clientId: c3,
+            service: "Лендинг",
+            price: 6e6,
+            paid: 6e6,
+            startDate: ago(26),
+            deadline: ago(4),
+            status: "Завершён",
+            progress: 100,
+            desc: "Лендинг с меню и картой",
+          },
+        ];
+        DB.incomes = [
+          {
+            id: uid(),
+            title: "Оплата проекта: Сайт автосалона",
+            category: "Проект",
+            amount: 7e6,
+            date: ago(2),
+            source: "AutoCity",
+            comment: "Предоплата 58%",
+            projectId: p1,
+            clientId: c1,
+          },
+          {
+            id: uid(),
+            title: "Предоплата Real House",
+            category: "Проект",
+            amount: 5e6,
+            date: ago(5),
+            source: "Real House",
+            comment: "",
+            projectId: p2,
+            clientId: c2,
+          },
+          {
+            id: uid(),
+            title: "Консультация по маркетингу",
+            category: "Услуги",
+            amount: 3600000,
+            date: ago(0),
+            source: "Личный клиент",
+            comment: "",
+          },
+          {
+            id: uid(),
+            title: "Оплата проекта: Сайт кафе",
+            category: "Проект",
+            amount: 3e6,
+            date: ago(8),
+            source: "Coffee Point",
+            comment: "Финальная оплата",
+            projectId: p3,
+            clientId: c3,
+          },
+          {
+            id: uid(),
+            title: "Продажа услуги аудит",
+            category: "Продажа",
+            amount: 9e6,
+            date: ago(22),
+            source: "Instagram",
+            comment: "",
+          },
+        ];
+        DB.expenses = [
+          {
+            id: uid(),
+            title: "Реклама в Instagram",
+            category: "Реклама",
+            amount: 2e6,
+            date: ago(1),
+            comment: "Таргет",
+          },
+          {
+            id: uid(),
+            title: "Подписки на сервисы",
+            category: "Сервисы",
+            amount: 1240000,
+            date: ago(3),
+            comment: "Figma, хостинг, домены",
+          },
+          {
+            id: uid(),
+            title: "Транспорт и встречи",
+            category: "Транспорт",
+            amount: 740000,
+            date: ago(4),
+            comment: "",
+          },
+          {
+            id: uid(),
+            title: "Зарплата помощнику",
+            category: "Зарплата",
+            amount: 2260000,
+            date: ago(6),
+            comment: "",
+          },
+          {
+            id: uid(),
+            title: "Аренда офиса",
+            category: "Бизнес",
+            amount: 3e6,
+            date: ago(24),
+            comment: "",
+          },
+        ];
+        DB.tasks = [
+          {
+            id: uid(),
+            title: "Закончить сайт недвижимости",
+            desc: "Главная страница + каталог",
+            priority: "Высокий",
+            deadline: todayStr(),
+            projectId: p2,
+            clientId: c2,
+            status: "В работе",
+          },
+          {
+            id: uid(),
+            title: "Позвонить клиенту AutoCity",
+            desc: "Согласовать правки",
+            priority: "Средний",
+            deadline: todayStr(),
+            projectId: p1,
+            clientId: c1,
+            status: "Запланировано",
+          },
+          {
+            id: uid(),
+            title: "Найти 30 компаний для рассылки",
+            desc: "",
+            priority: "Средний",
+            deadline: ago(-2),
+            projectId: "",
+            clientId: "",
+            status: "Запланировано",
+          },
+          {
+            id: uid(),
+            title: "Отправить 30 коммерческих предложений",
+            desc: "По собранной базе",
+            priority: "Высокий",
+            deadline: ago(-4),
+            projectId: "",
+            clientId: "",
+            status: "В работе",
+          },
+          {
+            id: uid(),
+            title: "Создать КП для Real House",
+            desc: "С презентацией каталога",
+            priority: "Критический",
+            deadline: ago(-1),
+            projectId: p2,
+            clientId: c2,
+            status: "Ожидает",
+          },
+          {
+            id: uid(),
+            title: "Счёт за хостинг",
+            desc: "Продлить на год",
+            priority: "Низкий",
+            deadline: ago(3),
+            projectId: "",
+            clientId: "",
+            status: "Запланировано",
+          },
+          {
+            id: uid(),
+            title: "Пополнить цель Onix",
+            desc: "С оплаты проекта",
+            priority: "Средний",
+            deadline: ago(2),
+            projectId: "",
+            clientId: "",
+            status: "Готово",
+          },
+          {
+            id: uid(),
+            title: "Добавить доход в систему",
+            desc: "",
+            priority: "Низкий",
+            deadline: ago(1),
+            projectId: "",
+            clientId: "",
+            status: "Готово",
+          },
+        ];
+        DB.leads = [
+          {
+            id: uid(),
+            name: "UzBuild Group",
+            amount: 18e6,
+            stage: 0,
+            comment: "Корпоративный сайт",
+            createdAt: ago(2),
+          },
+          {
+            id: uid(),
+            name: "FitLife Gym",
+            amount: 8e6,
+            stage: 1,
+            comment: "Лендинг + CRM",
+            createdAt: ago(3),
+          },
+          {
+            id: uid(),
+            name: "Sushi Master",
+            amount: 11e6,
+            stage: 2,
+            comment: "Сайт доставки",
+            createdAt: ago(5),
+          },
+          {
+            id: uid(),
+            name: "EduCenter",
+            amount: 22e6,
+            stage: 3,
+            comment: "Онлайн-платформа",
+            createdAt: ago(7),
+          },
+          {
+            id: uid(),
+            name: "Buxara Travel",
+            amount: 14e6,
+            stage: 4,
+            comment: "Туристический портал",
+            createdAt: ago(9),
+          },
+          {
+            id: uid(),
+            name: "Coffee Point",
+            amount: 6e6,
+            stage: 5,
+            comment: "Лендинг кафе",
+            createdAt: ago(20),
+          },
+          {
+            id: uid(),
+            name: "AutoCity",
+            amount: 12e6,
+            stage: 6,
+            comment: "Сайт автосалона",
+            createdAt: ago(24),
+          },
+        ];
+        DB.activities = [
+          {
+            id: uid(),
+            ts: Date.now(),
+            date: todayStr(),
+            type: "finance",
+            text: "Добавлен доход: Консультация по маркетингу",
+            amount: 3600000,
+          },
+          {
+            id: uid(),
+            ts: Date.now() - 1,
+            date: ago(2),
+            type: "goal",
+            text: "Пополнена цель «Chevrolet Onix»",
+            amount: 2e6,
+          },
+          {
+            id: uid(),
+            ts: Date.now() - 2,
+            date: ago(2),
+            type: "finance",
+            text: "Оплата проекта «Сайт автосалона» от AutoCity",
+            amount: 7e6,
+          },
+          {
+            id: uid(),
+            ts: Date.now() - 3,
+            date: ago(3),
+            type: "project",
+            text: "Создан проект «Сайт недвижимости»",
+          },
+          {
+            id: uid(),
+            ts: Date.now() - 4,
+            date: ago(4),
+            type: "client",
+            text: "Создан клиент: Real House",
+          },
+          {
+            id: uid(),
+            ts: Date.now() - 5,
+            date: ago(5),
+            type: "task",
+            text: "Задача «Отправить 30 коммерческих предложений» в работе",
+          },
+        ];
+        save();
+      }
+
+      /* ============================================================
+   SHELL (layout)
+============================================================ */
+      const NAV = [
+        ["dashboard", "Главная", "home"],
+        ["goals", "Цели", "target"],
+        ["finance", "Финансы", "wallet"],
+        ["clients", "Клиенты", "users"],
+        ["projects", "Проекты", "briefcase"],
+        ["tasks", "Задачи", "check"],
+        ["sales", "Продажи", "filter"],
+        ["analytics", "Аналитика", "chart"],
+        ["history", "История", "hist"],
+        ["settings", "Настройки", "sliders"],
+      ];
+      const TITLES = Object.fromEntries(NAV.map((n) => [n[0], n[1]]));
+      TITLES.dashboard = "Главная";
+
+      function currentPage() {
+        const h = location.hash.replace("#/app/", "");
+        return TITLES[h] ? h : "dashboard";
+      }
+      function nav(r) {
+        location.hash = "#/app/" + r;
+      }
+
+      function renderShell(page) {
+        const unread = computeNotifs().filter(
+          (n) => !DB.notifRead[n.key],
+        ).length;
+        const th = DB.settings.theme;
+        $("#app").innerHTML = `
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="side-brand"><div class="logo">R</div><div>RNR OS<small>Business & Finance</small></div></div>
+      <nav class="side-nav">${NAV.map(([r, t, ic]) => `<a class="nav-item${r === page ? " on" : ""}" href="#/app/${r}">${I(ic, 18)}${t}</a>`).join("")}</nav>
+      <div class="side-bottom">
+        <div class="theme-seg">
+          <button data-act="set-theme" data-id="light" class="${th === "light" ? "on" : ""}" title="Светлая тема">${I("sun", 16)}</button>
+          <button data-act="set-theme" data-id="dark" class="${th === "dark" ? "on" : ""}" title="Тёмная тема">${I("moon", 16)}</button>
+          <button data-act="set-theme" data-id="system" class="${th === "system" ? "on" : ""}" title="Системная тема">${I("monitor", 16)}</button>
+        </div>
+        <div class="side-user">
+          <div class="avatar">${initials(USER.name)}</div>
+          <div style="flex:1;min-width:0"><b>${esc(USER.name)}</b><span>Администратор</span></div>
+          <button class="mini-btn" data-act="logout" title="Выйти" style="background:transparent;border-color:var(--side-line);color:var(--side-ink)">${I("logout", 15)}</button>
+        </div>
+      </div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <h1>${page === "dashboard" ? "" : TITLES[page] || ""}</h1>
+        <div class="seg">
+          <button data-act="set-cur" data-id="UZS" class="${cur() === "UZS" ? "on" : ""}">UZS</button>
+          <button data-act="set-cur" data-id="USD" class="${cur() === "USD" ? "on" : ""}">USD</button>
+        </div>
+        <div class="bell-wrap">
+          <button class="icon-btn" data-act="bell-toggle">${I("bell", 18)}${unread ? `<span class="bell-dot">${unread}</span>` : ""}</button>
+          <div class="bell-panel" id="bell-panel"></div>
+        </div>
+        <div class="menu-wrap">
+          <button class="icon-btn" data-act="menu-toggle" style="width:auto;padding:0 10px;gap:8px;display:flex;align-items:center">
+            <span class="avatar" style="width:28px;height:28px;border-radius:8px;font-size:.72rem">${initials(USER.name)}</span>${I("down", 14)}
+          </button>
+          <div class="menu-panel" id="user-menu">
+            <button data-act="goto" data-id="settings">${I("sliders", 16)} Настройки</button>
+            <button class="danger" data-act="logout">${I("logout", 16)} Выйти</button>
+          </div>
+        </div>
+      </header>
+      <main class="page" id="page"></main>
+    </div>
+    <nav class="bnav"><div class="bnav-in">
+      <button data-act="goto" data-id="dashboard" class="${page === "dashboard" ? "on" : ""}">${I("home", 20)}Главная</button>
+      <button data-act="goto" data-id="goals" class="${page === "goals" ? "on" : ""}">${I("target", 20)}Цели</button>
+      <button data-act="goto" data-id="finance" class="${page === "finance" ? "on" : ""}">${I("wallet", 20)}Финансы</button>
+      <button data-act="goto" data-id="sales" class="${page === "sales" ? "on" : ""}">${I("filter", 20)}Продажи</button>
+      <button data-act="goto" data-id="clients" class="${page === "clients" ? "on" : ""}">${I("users", 20)}Клиенты</button>
+      <button data-act="more-nav">${I("more", 20)}Ещё</button>
+    </div></nav>
+  </div>`;
+      }
+      const P = (html) => {
+        $("#page").innerHTML = html;
+      };
+
+      function renderBellPanel() {
+        const list = computeNotifs();
+        $("#bell-panel").innerHTML = `
+    <div class="bell-head"><b>Уведомления</b>${list.length ? `<button data-act="bell-readall">Прочитать все</button>` : ""}</div>
+    <div class="bell-list">${
+      list.length
+        ? list
+            .map(
+              (n) => `
+      <div class="bell-item${DB.notifRead[n.key] ? " read" : ""}" data-act="bell-read" data-id="${n.key}">
+        <span class="dot"></span><span>${esc(n.text)}</span>
+      </div>`,
+            )
+            .join("")
+        : `<div style="padding:26px;text-align:center;color:var(--muted)">Нет новых уведомлений</div>`
+    }
+    </div>`;
+      }
+
+      /* ============================================================
+   СТРАНИЦА: DASHBOARD
+============================================================ */
+      function rDashboard() {
+        const t = totals();
+        const b = bucketsFor(30);
+        const notifs = computeNotifs().slice(0, 4);
+        const goals = DB.goals.filter((g) => g.status === "active").slice(0, 3);
+        const acts = DB.activities.slice(0, 6);
+        const hour = new Date().getHours();
+        const greet =
+          hour < 6
+            ? "Доброй ночи"
+            : hour < 12
+              ? "Доброе утро"
+              : hour < 18
+                ? "Добрый день"
+                : "Добрый вечер";
+        P(`
+  <div class="hero card">
+    <div>
+      <h2>Добро пожаловать, ${esc(USER.name)}! 👋</h2>
+      <p>Вот что происходит в твоём бизнесе сегодня — ${fmtD(todayStr())}</p>
+    </div>
+    <div class="qacts">
+      <button class="btn btn-p btn-sm" data-act="qa-income">${I("plus", 15)} Доход</button>
+      <button class="btn btn-g btn-sm" data-act="qa-expense">${I("plus", 15)} Расход</button>
+      <button class="btn btn-g btn-sm" data-act="qa-client">${I("plus", 15)} Клиент</button>
+      <button class="btn btn-g btn-sm" data-act="qa-project">${I("plus", 15)} Проект</button>
+      <button class="btn btn-g btn-sm" data-act="qa-task">${I("plus", 15)} Задача</button>
+      <button class="btn btn-g btn-sm" data-act="qa-topup">${I("target", 15)} Пополнить цель</button>
+    </div>
+  </div>
+  <div class="kpis">
+    <div class="kpi"><div class="t">Баланс<span class="ic ic-green">${I("wallet", 18)}</span></div><b class="num">${M(t.bal)}</b><small>все доходы − все расходы</small></div>
+    <div class="kpi"><div class="t">Доход за месяц<span class="ic ic-teal">${I("trend", 18)}</span></div><b class="num">${M(t.mInc)}</b><small>${fmtD(todayStr().slice(0, 8) + "01")} — сегодня</small></div>
+    <div class="kpi"><div class="t">Расходы за месяц<span class="ic ic-red">${I("trendD", 18)}</span></div><b class="num">${M(t.mExp)}</b><small>все категории</small></div>
+    <div class="kpi"><div class="t">Чистая прибыль<span class="ic ic-amber">${I("zap", 18)}</span></div><b class="num" style="color:${t.mProfit >= 0 ? "var(--brand)" : "var(--red)"}">${M(t.mProfit)}</b><small>за текущий месяц</small></div>
+  </div>
+  <div class="cols">
+    <div class="card"><h3>${I("chart", 17)} Динамика за 30 дней</h3>${lineChart(b)}</div>
+    <div style="display:grid;gap:14px;align-content:start">
+      <div class="card"><h3>${I("bell", 17)} Уведомления</h3>
+        ${notifs.length ? notifs.map((n) => `<div class="list-row"><span class="ic ic-amber">${I(n.icon, 15)}</span><div class="tx"><b style="white-space:normal">${esc(n.text)}</b></div></div>`).join("") : '<div style="color:var(--muted);font-size:.88rem">Всё спокойно ✨</div>'}
+      </div>
+      <div class="card"><h3>${I("target", 17)} Активные цели</h3>
+        ${
+          goals.length
+            ? goals
+                .map((g) => {
+                  const s = goalStats(g);
+                  return `
+          <div style="margin-bottom:13px">
+            <div style="display:flex;justify-content:space-between;font-size:.86rem;margin-bottom:5px"><b>${esc(g.name)}</b><span class="num" style="color:var(--muted)">${s.pct.toFixed(0)}%</span></div>
+            <div class="bar${s.pct >= 100 ? " done" : ""}"><i style="width:${s.pct}%"></i></div>
+            <div style="font-size:.75rem;color:var(--muted);margin-top:4px">Собрано ${M(s.saved)} из ${M(g.target)}</div>
+          </div>`;
+                })
+                .join("") +
+              `<a class="link-more" href="#/app/goals">Все цели →</a>`
+            : emptyBox(
+                "target",
+                "Целей пока нет",
+                `<div style="font-size:.85rem">Создайте первую цель</div>`,
+                `<button class="btn btn-p btn-sm" data-act="qa-goal">Создать цель</button>`,
+              )
+        }
+      </div>
+      <div class="card"><h3>${I("hist", 17)} Последняя активность</h3>
+        ${acts.length ? acts.map(actRow).join("") + `<a class="link-more" href="#/app/history">Вся история →</a>` : emptyBox("hist", "Пока пусто")}
+      </div>
+    </div>
+  </div>`);
+      }
+      const actIcon = {
+        finance: "wallet",
+        goal: "target",
+        client: "users",
+        project: "briefcase",
+        task: "check",
+        lead: "filter",
+        system: "zap",
+      };
+      const actCls = {
+        finance: "ic-green",
+        goal: "ic-amber",
+        client: "ic-blue",
+        project: "ic-teal",
+        task: "ic-purple",
+        lead: "ic-red",
+        system: "ic-green",
+      };
+      function actRow(a) {
+        return `<div class="list-row"><span class="ic ${actCls[a.type] || "ic-green"}">${I(actIcon[a.type] || "zap", 15)}</span>
+    <div class="tx"><b>${esc(a.text)}</b><span>${fmtD(a.date)}</span></div>
+    ${a.amount ? `<span class="amt ${a.type === "goal" || a.amount >= 0 ? "pos" : ""}">${a.amount >= 0 ? "+" : "−"}${M(Math.abs(a.amount))}</span>` : ""}</div>`;
+      }
+
+      /* ============================================================
+   СТРАНИЦА: ЦЕЛИ
+============================================================ */
+      function goalCard(g) {
+        const s = goalStats(g);
+        if (g.status === "obligation" && g.obligation) {
+          const o = g.obligation;
+          return `<div class="card goal-card">
+      <div class="gc-top"><h4>${esc(g.name)}</h4>${bdg("obligation")}</div>
+      <div class="cat">${esc(g.category)} · Обязательство · ${bdg("Выполнена 🎉")}</div>
+      <div class="goal-nums">
+        <div><span>Платёж</span><b>${M(o.monthly)}</b></div>
+        <div><span>Платежей</span><b>${o.paidCount || 0} / ${o.count}</b></div>
+        <div><span>Следующий</span><b>${fmtD(o.next)}</b></div>
+      </div>
+      <div class="bar"><i style="width:${clamp(((o.paidCount || 0) / o.count) * 100, 0, 100)}%"></i></div>
+      <div class="gc-foot">
+        ${(o.paidCount || 0) < o.count ? `<button class="btn btn-p btn-sm" data-act="obl-pay" data-id="${g.id}">${I("card", 15)} Внести платёж</button>` : `<span class="bdg b-green">Выплачено полностью 🎉</span>`}
+        <button class="btn btn-g btn-sm" data-act="goal-history" data-id="${g.id}">${I("hist", 15)} История</button>
+        <button class="btn btn-g btn-sm" data-act="goal-del" data-id="${g.id}" style="margin-left:auto">${I("trash", 15)}</button>
+      </div></div>`;
+        }
+        const done = g.status === "done";
+        return `<div class="card goal-card">
+    <div class="gc-top"><h4>${esc(g.name)}</h4>${done ? bdg("Выполнена 🎉") : bdg("active")}</div>
+    <div class="cat">${esc(g.category)} · Приоритет: ${esc(g.priority)}</div>
+    <div class="bar${done ? " done" : ""}"><i style="width:${s.pct}%"></i></div>
+    <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:.8rem;color:var(--muted)"><span>${s.pct.toFixed(1)}%</span><span class="pct-big" style="font-size:.95rem;color:var(--brand)">${M(s.saved)}</span></div>
+    <div class="goal-nums">
+      <div><span>Цель</span><b>${M(g.target)}</b></div>
+      <div><span>Собрано</span><b>${M(s.saved)}</b></div>
+      <div><span>Осталось</span><b>${M(s.remain)}</b></div>
+    </div>
+    ${g.desc ? `<div style="font-size:.83rem;color:var(--muted);margin-bottom:6px">${esc(g.desc)}</div>` : ""}
+    <div class="gc-meta">
+      <span>${I("calendar", 13)} до ${fmtD(g.deadline)}</span>
+      <span>${I("hist", 13)} пополнений: ${s.txs}</span>
+    </div>
+    <div class="gc-foot">
+      ${
+        done
+          ? `<button class="btn btn-p btn-sm" data-act="goal-to-obl" data-id="${g.id}">${I("card", 15)} Преобразовать в обязательство</button>`
+          : `<button class="btn btn-p btn-sm" data-act="qa-topup" data-id="${g.id}">${I("plus", 15)} Пополнить</button>`
+      }
+      <button class="btn btn-g btn-sm" data-act="goal-history" data-id="${g.id}">${I("hist", 15)}</button>
+      <button class="btn btn-g btn-sm" data-act="goal-edit" data-id="${g.id}">${I("edit", 15)}</button>
+      <button class="btn btn-g btn-sm" data-act="goal-del" data-id="${g.id}">${I("trash", 15)}</button>
+    </div>
+  </div>`;
+      }
+      function rGoals() {
+        const active = DB.goals.filter((g) => g.status !== "done");
+        const done = DB.goals.filter((g) => g.status === "done");
+        P(`
+  <div class="page-head">
+    <div><h2 style="font-family:'Space Grotesk'">Финансовые цели</h2><p>Накапливайте, отслеживайте прогресс и превращайте цели в обязательства</p></div>
+    <button class="btn btn-p" data-act="qa-goal">${I("plus", 16)} Новая цель</button>
+  </div>
+  <div class="tabs">
+    <button class="${UI.goalTab === "active" ? "on" : ""}" data-act="goal-tab" data-id="active">Активные (${active.length})</button>
+    <button class="${UI.goalTab === "done" ? "on" : ""}" data-act="goal-tab" data-id="done">Завершённые (${done.length})</button>
+  </div>
+  ${
+    UI.goalTab === "active"
+      ? active.length
+        ? `<div class="goals-grid">${active.map(goalCard).join("")}</div>`
+        : emptyBox(
+            "target",
+            "Активных целей нет",
+            "Создайте первую цель — например, автомобиль, технику или подушку",
+            `<button class="btn btn-p" data-act="qa-goal">Создать цель</button>`,
+          )
+      : done.length
+        ? `<div class="goals-grid">${done.map(goalCard).join("")}</div>`
+        : emptyBox(
+            "flag",
+            "Завершённых целей нет",
+            "Когда цель будет накоплена, она появится здесь",
+          )
+  }
+  `);
+      }
+      function mGoal(g) {
+        g = g || {};
+        modal(
+          g.id ? "Редактировать цель" : "Новая цель",
+          `
+  <form data-form="goal" class="stack">
+    <input type="hidden" name="id" value="${g.id || ""}">
+    ${F("Название цели *", TI("name", g.name || "", "Например: Chevrolet Onix"))}
+    <div class="grid2">
+      ${F("Целевая сумма *", TI("target", g.target ? fromUZS(g.target) : "", "Например: 75 000 000", "text", 'inputmode="decimal"'))}
+      ${F("Начальная сумма", TI("start", g.id ? "" : 0, "Уже накоплено", "text", 'inputmode="decimal"'))}
+    </div>
+    <div class="grid2">
+      ${F("Дата достижения", TD("deadline", g.deadline || ago(-90)))}
+      ${F("Приоритет", TS("priority", PRIORITIES, g.priority || "Средний", ""))}
+    </div>
+    ${F("Категория", TS("category", GOAL_CATS, g.category || "", ""))}
+    ${F("Описание", TA("desc", g.desc || "", "Пара слов о цели"))}
+    <button class="btn btn-p btn-block" type="submit">${g.id ? "Сохранить изменения" : "Создать цель"}</button>
+  </form>`,
+          { wide: true },
+        );
+      }
+      function mTopUp(goalId) {
+        const goals = DB.goals.filter((g) => g.status === "active");
+        if (!goals.length) {
+          toast("Сначала создайте активную цель", "warn");
+          return;
+        }
+        modal(
+          "Пополнить цель",
+          `
+  <form data-form="topup" class="stack">
+    ${F(
+      "Цель",
+      TS(
+        "goalId",
+        goals.map((g) => [g.id, g.name]),
+        goalId || goals[0].id,
+        "",
+      ),
+    )}
+    ${F("Сумма *", TI("amount", "", "Например: 2 000 000", "text", 'inputmode="decimal"'))}
+    <div class="grid2">
+      ${F("Дата", TD("date", todayStr()))}
+      ${F("Источник", TS("source", GOAL_SRC, "Доход от проекта", ""))}
+    </div>
+    ${F("Комментарий", TI("comment", "", "Необязательно"))}
+    <button class="btn btn-p btn-block" type="submit">${I("plus", 16)} Пополнить</button>
+  </form>`,
+        );
+      }
+      function mGoalHistory(goalId) {
+        const g = goalById(goalId);
+        if (!g) return;
+        let txs = DB.goalTx.filter((t) => t.goalId === goalId);
+        if (UI.ghSrc) txs = txs.filter((t) => t.source === UI.ghSrc);
+        txs = [...txs].sort((a, b) =>
+          UI.ghSort === "amount"
+            ? b.amount - a.amount
+            : a.date < b.date
+              ? 1
+              : a.date > b.date
+                ? -1
+                : 0,
+        );
+        const s = goalStats(g);
+        modal(
+          `История накоплений — ${esc(g.name)}`,
+          `
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">
+      <select class="inp" style="max-width:220px" data-live="gh-src">
+        <option value="">Все источники</option>
+        ${GOAL_SRC.map((x) => `<option ${UI.ghSrc === x ? "selected" : ""}>${x}</option>`).join("")}
+      </select>
+      <div class="seg">
+        <button class="${UI.ghSort === "date" ? "on" : ""}" data-act="gh-sort" data-id="date">По дате</button>
+        <button class="${UI.ghSort === "amount" ? "on" : ""}" data-act="gh-sort" data-id="amount">По сумме</button>
+      </div>
+    </div>
+    ${
+      txs.length
+        ? `<div class="tbl-wrap"><table class="tbl">
+      <tr><th>Дата</th><th>Сумма</th><th>Источник</th><th>Комментарий</th><th>Баланс после</th><th></th></tr>
+      ${txs
+        .map(
+          (t) => `<tr>
+        <td>${fmtD(t.date)}</td>
+        <td class="num" style="color:var(--brand);font-weight:700">+${M(t.amount)}</td>
+        <td>${esc(t.source)}</td>
+        <td style="color:var(--muted);max-width:160px">${esc(t.comment || "—")}</td>
+        <td class="num">${M(t.balanceAfter || 0)}</td>
+        <td><div class="row-acts">
+          <button class="mini-btn" data-act="ghtx-edit" data-id="${t.id}">${I("edit", 14)}</button>
+          <button class="mini-btn danger" data-act="ghtx-del" data-id="${t.id}">${I("trash", 14)}</button>
+        </div></td></tr>`,
+        )
+        .join("")}
+    </table></div>`
+        : emptyBox("hist", "Операций нет")
+    }
+    <div class="hint" style="margin-top:12px">Собрано: <b>${M(s.saved)}</b> из ${M(g.target)} · ${s.pct.toFixed(1)}%</div>
+  `,
+          { wide: true },
+        );
+      }
+      function mGoalTxEdit(t) {
+        modal(
+          "Редактировать пополнение",
+          `
+  <form data-form="ghtx-edit" class="stack">
+    <input type="hidden" name="id" value="${t.id}">
+    ${F("Сумма *", TI("amount", fromUZS(t.amount), "", "text", 'inputmode="decimal"'))}
+    <div class="grid2">
+      ${F("Дата", TD("date", t.date))}
+      ${F("Источник", TS("source", GOAL_SRC, t.source, ""))}
+    </div>
+    ${F("Комментарий", TI("comment", t.comment || "", ""))}
+    <button class="btn btn-p btn-block" type="submit">Сохранить</button>
+  </form>`,
+        );
+      }
+      function mObligation(g) {
+        modal(
+          "Преобразовать в обязательство",
+          `
+    <p style="color:var(--muted);font-size:.9rem;margin-bottom:14px">Цель «<b>${esc(g.name)}</b>» достигнута. Если покупка оформлена в рассрочку/кредит — настройте трекер регулярных платежей.</p>
+    <form data-form="obligation" class="stack">
+      <input type="hidden" name="id" value="${g.id}">
+      ${F("Ежемесячный платёж *", TI("monthly", "", "Например: 4 100 000", "text", 'inputmode="decimal"'))}
+      <div class="grid2">
+        ${F("Количество платежей *", TI("count", "36", "", "number", 'min="1"'))}
+        ${F("Дата следующего платежа", TD("next", ago(-30)))}
+      </div>
+      <button class="btn btn-p btn-block" type="submit">Создать обязательство</button>
+    </form>`,
+        );
+      }
+
+      /* ============================================================
+   СТРАНИЦА: ФИНАНСЫ
+============================================================ */
+      function rFinance() {
+        const t = totals();
+        const tab = UI.finTab;
+        const inc = [...DB.incomes].sort((a, b) => (a.date < b.date ? 1 : -1));
+        const exp = [...DB.expenses].sort((a, b) => (a.date < b.date ? 1 : -1));
+        const trans = [...DB.goalTx]
+          .sort((a, b) => (a.date < b.date ? 1 : -1))
+          .map((tx) => {
+            const g = goalById(tx.goalId);
+            return { ...tx, goalName: g ? g.name : "—" };
+          });
+        P(`
+  <div class="page-head">
+    <div><h2 style="font-family:'Space Grotesk'">Финансы</h2><p>Доходы, расходы и переводы в цели — всё считается автоматически</p></div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-p btn-sm" data-act="qa-income">${I("plus", 15)} Доход</button>
+      <button class="btn btn-d btn-sm" data-act="qa-expense">${I("plus", 15)} Расход</button>
+    </div>
+  </div>
+  <div class="kpis" style="margin-bottom:16px">
+    <div class="kpi"><div class="t">Общий доход</div><b class="num" style="color:var(--brand)">${M(t.allInc)}</b></div>
+    <div class="kpi"><div class="t">Общие расходы</div><b class="num" style="color:var(--red)">${M(t.allExp)}</b></div>
+    <div class="kpi"><div class="t">Чистая прибыль</div><b class="num">${M(t.allInc - t.allExp)}</b></div>
+    <div class="kpi"><div class="t">Баланс</div><b class="num">${M(t.bal)}</b></div>
+  </div>
+  <div class="tabs">
+    <button class="${tab === "income" ? "on" : ""}" data-act="fin-tab" data-id="income">Доходы (${inc.length})</button>
+    <button class="${tab === "expense" ? "on" : ""}" data-act="fin-tab" data-id="expense">Расходы (${exp.length})</button>
+    <button class="${tab === "transfer" ? "on" : ""}" data-act="fin-tab" data-id="transfer">Переводы в цели (${trans.length})</button>
+  </div>
+  ${
+    tab === "income"
+      ? inc.length
+        ? `<div class="tbl-wrap"><table class="tbl">
+    <tr><th>Дата</th><th>Название</th><th>Категория</th><th>Источник</th><th class="hide-m">Комментарий</th><th style="text-align:right">Сумма</th><th></th></tr>
+    ${inc
+      .map(
+        (i) => `<tr>
+      <td>${fmtD(i.date)}</td>
+      <td><b>${esc(i.title)}</b></td>
+      <td>${bdg(i.category)}</td>
+      <td style="color:var(--muted)">${esc(i.source || "—")}</td>
+      <td class="hide-m" style="color:var(--muted);max-width:180px">${esc(i.comment || "—")}</td>
+      <td class="num" style="text-align:right;color:var(--brand);font-weight:800">+${M(i.amount)}</td>
+      <td><div class="row-acts">
+        <button class="mini-btn" data-act="inc-edit" data-id="${i.id}">${I("edit", 14)}</button>
+        <button class="mini-btn danger" data-act="inc-del" data-id="${i.id}">${I("trash", 14)}</button>
+      </div></td></tr>`,
+      )
+      .join("")}
+  </table></div>`
+        : emptyBox(
+            "wallet",
+            "Доходов пока нет",
+            "",
+            `<button class="btn btn-p" data-act="qa-income">Добавить доход</button>`,
+          )
+      : tab === "expense"
+        ? exp.length
+          ? `<div class="tbl-wrap"><table class="tbl">
+    <tr><th>Дата</th><th>Название</th><th>Категория</th><th class="hide-m">Комментарий</th><th style="text-align:right">Сумма</th><th></th></tr>
+    ${exp
+      .map(
+        (e) => `<tr>
+      <td>${fmtD(e.date)}</td><td><b>${esc(e.title)}</b></td><td>${bdg(e.category)}</td>
+      <td class="hide-m" style="color:var(--muted);max-width:200px">${esc(e.comment || "—")}</td>
+      <td class="num" style="text-align:right;color:var(--red);font-weight:800">−${M(e.amount)}</td>
+      <td><div class="row-acts">
+        <button class="mini-btn" data-act="exp-edit" data-id="${e.id}">${I("edit", 14)}</button>
+        <button class="mini-btn danger" data-act="exp-del" data-id="${e.id}">${I("trash", 14)}</button>
+      </div></td></tr>`,
+      )
+      .join("")}
+  </table></div>`
+          : emptyBox(
+              "wallet",
+              "Расходов пока нет",
+              "",
+              `<button class="btn btn-d" data-act="qa-expense">Добавить расход</button>`,
+            )
+        : trans.length
+          ? `<div class="tbl-wrap"><table class="tbl">
+    <tr><th>Дата</th><th>Цель</th><th>Источник</th><th class="hide-m">Комментарий</th><th style="text-align:right">Сумма</th><th></th></tr>
+    ${trans
+      .map(
+        (t) => `<tr>
+      <td>${fmtD(t.date)}</td><td><b>${esc(t.goalName)}</b></td><td>${esc(t.source)}</td>
+      <td class="hide-m" style="color:var(--muted)">${esc(t.comment || "—")}</td>
+      <td class="num" style="text-align:right;color:var(--amber);font-weight:800">→ ${M(t.amount)}</td>
+      <td><div class="row-acts">
+        <button class="mini-btn danger" data-act="ghtx-del" data-id="${t.id}">${I("trash", 14)}</button>
+      </div></td></tr>`,
+      )
+      .join("")}
+  </table></div>`
+          : emptyBox(
+              "target",
+              "Переводов в цели пока нет",
+              "Пополните цель — операция появится здесь",
+            )
+  }
+  `);
+      }
+      function mIncome(inc) {
+        inc = inc || {};
+        modal(
+          inc.id ? "Редактировать доход" : "Добавить доход",
+          `
+  <form data-form="income" class="stack">
+    <input type="hidden" name="id" value="${inc.id || ""}">
+    ${F("Название *", TI("title", inc.title || "", "Например: Оплата проекта"))}
+    <div class="grid2">
+      ${F("Категория", TS("category", INC_CATS, inc.category || "Проект", ""))}
+      ${F("Сумма *", TI("amount", inc.amount ? fromUZS(inc.amount) : "", "Например: 7 000 000", "text", 'inputmode="decimal"'))}
+    </div>
+    <div class="grid2">
+      ${F("Дата", TD("date", inc.date || todayStr()))}
+      ${F("Источник", TI("source", inc.source || "", "Клиент, платформа…"))}
+    </div>
+    ${F("Комментарий", TI("comment", inc.comment || "", ""))}
+    <button class="btn btn-p btn-block" type="submit">${inc.id ? "Сохранить" : "Добавить доход"}</button>
+  </form>`,
+          { wide: true },
+        );
+      }
+      function mExpense(e) {
+        e = e || {};
+        modal(
+          e.id ? "Редактировать расход" : "Добавить расход",
+          `
+  <form data-form="expense" class="stack">
+    <input type="hidden" name="id" value="${e.id || ""}">
+    ${F("Название *", TI("title", e.title || "", "Например: Реклама в Instagram"))}
+    <div class="grid2">
+      ${F("Категория", TS("category", EXP_CATS, e.category || "Реклама", ""))}
+      ${F("Сумма *", TI("amount", e.amount ? fromUZS(e.amount) : "", "Например: 2 000 000", "text", 'inputmode="decimal"'))}
+    </div>
+    <div class="grid2">${F("Дата", TD("date", e.date || todayStr()))}<div></div></div>
+    ${F("Комментарий", TI("comment", e.comment || "", ""))}
+    <button class="btn btn-p btn-block" type="submit">${e.id ? "Сохранить" : "Добавить расход"}</button>
+  </form>`,
+          { wide: true },
+        );
+      }
+      /* --- Распределение дохода --- */
+      function mAllocate(income) {
+        const goals = DB.goals.filter((g) => g.status === "active");
+        const goalOpts = goals.map((g) => [g.id, g.name]);
+        modal(
+          "Распределить доход",
+          `
+    <p style="margin-bottom:6px">Получено: <b class="num" style="color:var(--brand)">${M(income.amount)}</b></p>
+    <p class="hint" style="margin-bottom:14px">Разнесите сумму по целям, бизнесу и резерву. Сумма распределения не может превышать доход.</p>
+    <form data-form="allocate" class="stack">
+      <input type="hidden" name="incomeId" value="${income.id}">
+      <div id="alloc-rows"></div>
+      <button type="button" class="btn btn-g btn-sm" data-act="alloc-add">${I("plus", 14)} Добавить цель</button>
+      <div class="grid2" style="margin-top:8px">
+        ${F("В бизнес", TI("biz", "0", "", "text", 'inputmode="decimal"'))}
+        ${F("В резерв", TI("reserve", "0", "", "text", 'inputmode="decimal"'))}
+      </div>
+      <div id="alloc-sum" style="font-weight:700;font-size:.9rem"></div>
+      <div style="display:flex;gap:8px">
+        <button type="button" class="btn btn-g" style="flex:1" data-act="close-modal">Пропустить</button>
+        <button class="btn btn-p" style="flex:2" type="submit">Распределить</button>
+      </div>
+    </form>`,
+          { wide: true },
+        );
+        const rows = $("#alloc-rows");
+        window.__allocGoalOpts = goalOpts;
+        window.__allocLimit = Number(income.amount);
+        addAllocRow("");
+        addAllocRow("");
+        function addAllocRow(v) {
+          const d = document.createElement("div");
+          d.className = "alloc-row";
+          d.innerHTML = `${TS("goal", goalOpts, v, "Цель (не выбрано)")}${TI("amt", "0", "", "text", 'inputmode="decimal"')}<button type="button" class="mini-btn danger" data-act="alloc-rm">${I("x", 14)}</button>`;
+          rows.appendChild(d);
+        }
+        window.__addAllocRow = addAllocRow;
+        updAllocSum();
+      }
+      function allocTotal() {
+        let s = 0;
+        $$("#alloc-rows .alloc-row").forEach((r) => {
+          s += toUZS(r.querySelector("[name=amt]").value);
+        });
+        const f = $("#modal-root form[data-form=allocate]");
+        if (f) {
+          s += toUZS(f.biz.value) + toUZS(f.reserve.value);
+        }
+        return s;
+      }
+      function updAllocSum() {
+        const el = $("#alloc-sum");
+        if (!el) return;
+        const s = allocTotal(),
+          lim = window.__allocLimit || 0;
+        el.innerHTML = `Распределено: <span style="color:${s > lim ? "var(--red)" : s === lim ? "var(--brand)" : "var(--ink)"}">${M(s)}</span> из ${M(lim)}${s > lim ? " — превышен лимит!" : ""}`;
+      }
+
+      /* ============================================================
+   СТРАНИЦА: КЛИЕНТЫ
+============================================================ */
+      function rClients() {
+        let list = [...DB.clients];
+        if (UI.clientSearch) {
+          const s = UI.clientSearch.toLowerCase();
+          list = list.filter((c) =>
+            (c.company + " " + (c.contact || "") + " " + (c.niche || ""))
+              .toLowerCase()
+              .includes(s),
+          );
+        }
+        if (UI.clientStatus)
+          list = list.filter((c) => c.status === UI.clientStatus);
+        list.sort((a, b) =>
+          UI.clientSort === "price"
+            ? b.price - a.price
+            : UI.clientSort === "paid"
+              ? b.paid - a.paid
+              : UI.clientSort === "new"
+                ? (b.createdAt || "").localeCompare(a.createdAt || "")
+                : String(a.company).localeCompare(String(b.company)),
+        );
+        const tPay = list.reduce((s, c) => s + Number(c.paid || 0), 0),
+          tDebt = list.reduce(
+            (s, c) =>
+              s + Math.max(0, Number(c.price || 0) - Number(c.paid || 0)),
+            0,
+          );
+        P(`
+  <div class="page-head">
+    <div><h2 style="font-family:'Space Grotesk'">Клиенты — CRM</h2><p>${DB.clients.length} клиент(ов) · Оплачено ${M(tPay)} · Остаток ${M(tDebt)}</p></div>
+    <button class="btn btn-p" data-act="qa-client">${I("plus", 16)} Новый клиент</button>
+  </div>
+  <div class="toolbar">
+    <div class="search-wrap">${I("search", 16)}<input class="inp" placeholder="Поиск: компания, контакт, ниша…" value="${esc(UI.clientSearch)}" data-live="client-search"></div>
+    <select class="inp" style="max-width:230px" data-live="client-status">
+      <option value="">Все статусы</option>${CLIENT_ST.map((s) => `<option ${UI.clientStatus === s ? "selected" : ""}>${s}</option>`).join("")}
+    </select>
+    <select class="inp" style="max-width:190px" data-live="client-sort">
+      <option value="name" ${UI.clientSort === "name" ? "selected" : ""}>По имени</option>
+      <option value="price" ${UI.clientSort === "price" ? "selected" : ""}>По стоимости</option>
+      <option value="paid" ${UI.clientSort === "paid" ? "selected" : ""}>По оплате</option>
+      <option value="new" ${UI.clientSort === "new" ? "selected" : ""}>Сначала новые</option>
+    </select>
+  </div>
+  ${
+    list.length
+      ? `<div class="tbl-wrap"><table class="tbl">
+    <tr><th>Компания</th><th class="hide-m">Контакт</th><th class="hide-m">Телефон</th><th>Статус</th><th style="text-align:right">Стоимость</th><th style="text-align:right">Оплачено</th><th style="text-align:right">Остаток</th><th></th></tr>
+    ${list
+      .map((c) => {
+        const debt = Math.max(0, (c.price || 0) - (c.paid || 0));
+        return `<tr style="cursor:pointer" data-act="client-card" data-id="${c.id}">
+      <td><b>${esc(c.company)}</b><div style="font-size:.75rem;color:var(--muted)">${esc(c.niche || "")}</div></td>
+      <td class="hide-m">${esc(c.contact || "—")}</td>
+      <td class="hide-m num" style="font-size:.82rem">${esc(c.phone || "—")}</td>
+      <td>${bdg(c.status)}</td>
+      <td class="num" style="text-align:right">${M(c.price || 0)}</td>
+      <td class="num" style="text-align:right;color:var(--brand)">${M(c.paid || 0)}</td>
+      <td class="num" style="text-align:right;color:${debt ? "var(--red)" : "var(--muted)"}">${debt ? M(debt) : "—"}</td>
+      <td><div class="row-acts">
+        <button class="mini-btn" data-act="client-edit" data-id="${c.id}">${I("edit", 14)}</button>
+        <button class="mini-btn danger" data-act="client-del" data-id="${c.id}">${I("trash", 14)}</button>
+      </div></td></tr>`;
+      })
+      .join("")}
+  </table></div>`
+      : emptyBox(
+          "users",
+          "Клиенты не найдены",
+          UI.clientSearch || UI.clientStatus
+            ? "Попробуйте изменить фильтры"
+            : "Добавьте первого клиента",
+          `<button class="btn btn-p" data-act="qa-client">Добавить клиента</button>`,
+        )
+  }
+  `);
+      }
+      function mClient(c) {
+        c = c || {};
+        modal(
+          c.id ? "Редактировать клиента" : "Новый клиент",
+          `
+  <form data-form="client" class="stack">
+    <input type="hidden" name="id" value="${c.id || ""}">
+    <div class="grid2">
+      ${F("Компания *", TI("company", c.company || "", "Например: AutoCity"))}
+      ${F("Имя контакта", TI("contact", c.contact || "", ""))}
+    </div>
+    <div class="grid2">
+      ${F("Телефон", TI("phone", c.phone || "", "+998 …"))}
+      ${F("Email", TI("email", c.email || "", ""))}
+    </div>
+    <div class="grid2">
+      ${F("Instagram", TI("instagram", c.instagram || "", "@…"))}
+      ${F("Telegram", TI("telegram", c.telegram || "", "@…"))}
+    </div>
+    <div class="grid2">
+      ${F("Ниша", TI("niche", c.niche || "", "Сфера бизнеса"))}
+      ${F("Источник", TI("source", c.source || "", "Откуда пришёл"))}
+    </div>
+    <div class="grid2">
+      ${F("Услуга", TI("service", c.service || "", "Что продаёте"))}
+      ${F("Статус", TS("status", CLIENT_ST, c.status || "Новый", ""))}
+    </div>
+    <div class="grid2">
+      ${F("Стоимость", TI("price", c.price ? fromUZS(c.price) : "", "", "text", 'inputmode="decimal"'))}
+      ${F("Оплачено", TI("paid", c.paid ? fromUZS(c.paid) : "0", "", "text", 'inputmode="decimal"'))}
+    </div>
+    ${F("Комментарий", TA("comment", c.comment || "", ""))}
+    <button class="btn btn-p btn-block" type="submit">${c.id ? "Сохранить" : "Создать клиента"}</button>
+  </form>`,
+          { wide: true },
+        );
+      }
+      function mClientCard(id) {
+        const c = clientById(id);
+        if (!c) return;
+        const projs = DB.projects.filter((p) => p.clientId === id);
+        const price = c.price || 0,
+          paid = c.paid || 0,
+          debt = Math.max(0, price - paid);
+        modal(
+          esc(c.company),
+          `
+    <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">${bdg(c.status)}${c.niche ? bdg(c.niche) : ""}${c.source ? `<span class="bdg b-grey">Источник: ${esc(c.source)}</span>` : ""}</div>
+    <div style="display:grid;gap:9px;font-size:.9rem;margin-bottom:16px">
+      ${c.contact ? `<div style="display:flex;gap:9px;align-items:center">${I("users", 15)} ${esc(c.contact)}</div>` : ""}
+      ${c.phone ? `<div style="display:flex;gap:9px;align-items:center">${I("phone", 15)} <span class="num">${esc(c.phone)}</span></div>` : ""}
+      ${c.email ? `<div style="display:flex;gap:9px;align-items:center">${I("mail", 15)} ${esc(c.email)}</div>` : ""}
+      ${c.instagram ? `<div style="display:flex;gap:9px;align-items:center">${I("inst", 15)} ${esc(c.instagram)}</div>` : ""}
+      ${c.telegram ? `<div style="display:flex;gap:9px;align-items:center">${I("send", 15)} ${esc(c.telegram)}</div>` : ""}
+      ${c.service ? `<div style="display:flex;gap:9px;align-items:center">${I("briefcase", 15)} ${esc(c.service)}</div>` : ""}
+    </div>
+    <div class="goal-nums" style="grid-template-columns:repeat(3,1fr)">
+      <div><span>Стоимость</span><b>${M(price)}</b></div>
+      <div><span>Оплачено</span><b style="color:var(--brand)">${M(paid)}</b></div>
+      <div><span>Остаток</span><b style="color:${debt ? "var(--red)" : "var(--muted)"}">${debt ? M(debt) : "—"}</b></div>
+    </div>
+    ${c.comment ? `<div class="hint" style="margin-top:10px">💬 ${esc(c.comment)}</div>` : ""}
+    <h3 style="margin:18px 0 10px;font-size:.95rem">${I("briefcase", 16)} Проекты клиента (${projs.length})</h3>
+    ${
+      projs.length
+        ? projs
+            .map(
+              (p) => `
+      <div class="list-row"><span class="ic ic-teal">${I("briefcase", 14)}</span>
+        <div class="tx"><b>${esc(p.name)}</b><span>${esc(p.status)} · прогресс ${p.progress}%</span></div>
+        <span class="amt">${M(p.price || 0)}</span>
+      </div>`,
+            )
+            .join("")
+        : '<div class="hint">Проектов пока нет</div>'
+    }
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:18px">
+      <button class="btn btn-p btn-sm" data-act="qa-project" data-id="${c.id}">${I("plus", 14)} Проект</button>
+      <button class="btn btn-g btn-sm" data-act="client-edit" data-id="${c.id}">${I("edit", 14)} Редактировать</button>
+      <button class="btn btn-d btn-sm" data-act="client-del" data-id="${c.id}">${I("trash", 14)} Удалить</button>
+    </div>
+  `,
+          { wide: true },
+        );
+      }
+
+      /* ============================================================
+   СТРАНИЦА: ПРОЕКТЫ
+============================================================ */
+      function rProjects() {
+        const list = [...DB.projects].sort((a, b) =>
+          (b.startDate || "").localeCompare(a.startDate || ""),
+        );
+        P(`
+  <div class="page-head">
+    <div><h2 style="font-family:'Space Grotesk'">Проекты</h2><p>Связаны с клиентами, задачами и финансами</p></div>
+    <button class="btn btn-p" data-act="qa-project">${I("plus", 16)} Новый проект</button>
+  </div>
+  ${
+    list.length
+      ? `<div class="goals-grid">${list
+          .map((p) => {
+            const c = clientById(p.clientId);
+            const debt = Math.max(0, (p.price || 0) - (p.paid || 0));
+            const tasks = DB.tasks.filter((t) => t.projectId === p.id),
+              done = tasks.filter((t) => t.status === "Готово").length;
+            return `<div class="card goal-card">
+      <div class="gc-top"><h4>${esc(p.name)}</h4>${bdg(p.status)}</div>
+      <div class="cat">${c ? esc(c.company) : "Без клиента"}${p.service ? " · " + esc(p.service) : ""}</div>
+      <div style="display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted);margin-bottom:5px"><span>Прогресс</span><b>${p.progress}%</b></div>
+      <div class="bar${p.progress >= 100 ? " done" : ""}"><i style="width:${clamp(p.progress, 0, 100)}%"></i></div>
+      <div class="goal-nums" style="margin-top:12px">
+        <div><span>Стоимость</span><b>${M(p.price || 0)}</b></div>
+        <div><span>Оплачено</span><b style="color:var(--brand)">${M(p.paid || 0)}</b></div>
+        <div><span>Осталось</span><b style="color:${debt ? "var(--red)" : "var(--muted)"}">${debt ? M(debt) : "—"}</b></div>
+      </div>
+      <div class="gc-meta">
+        <span>${I("calendar", 13)} старт ${fmtD(p.startDate)}</span>
+        ${p.deadline ? `<span style="color:${daysTo(p.deadline) < 0 && !["Завершён", "Отменён"].includes(p.status) ? "var(--red)" : "inherit"}">${I("flag", 13)} дедлайн ${fmtD(p.deadline)}</span>` : ""}
+        <span>${I("check", 13)} задач: ${done}/${tasks.length}</span>
+      </div>
+      ${p.desc ? `<div style="font-size:.83rem;color:var(--muted);margin-top:8px">${esc(p.desc)}</div>` : ""}
+      <div class="gc-foot">
+        <button class="btn btn-p btn-sm" data-act="proj-pay" data-id="${p.id}">${I("wallet", 15)} Оплата клиента</button>
+        <button class="btn btn-g btn-sm" data-act="proj-tasks" data-id="${p.id}">${I("check", 15)} Задачи</button>
+        <button class="btn btn-g btn-sm" data-act="proj-edit" data-id="${p.id}">${I("edit", 15)}</button>
+        <button class="btn btn-g btn-sm" data-act="proj-del" data-id="${p.id}">${I("trash", 15)}</button>
+      </div>
+    </div>`;
+          })
+          .join("")}</div>`
+      : emptyBox(
+          "briefcase",
+          "Проектов пока нет",
+          "Создайте проект и привяжите его к клиенту",
+          `<button class="btn btn-p" data-act="qa-project">Создать проект</button>`,
+        )
+  }
+  `);
+      }
+      function mProject(p, preClient) {
+        p = p || {};
+        modal(
+          p.id ? "Редактировать проект" : "Новый проект",
+          `
+  <form data-form="project" class="stack">
+    <input type="hidden" name="id" value="${p.id || ""}">
+    ${F("Название проекта *", TI("name", p.name || "", "Например: Сайт автосалона"))}
+    <div class="grid2">
+      ${F(
+        "Клиент",
+        TS(
+          "clientId",
+          DB.clients.map((c) => [c.id, c.company]),
+          p.clientId || preClient || "",
+          "Без клиента",
+        ),
+      )}
+      ${F("Услуга", TI("service", p.service || "", ""))}
+    </div>
+    <div class="grid2">
+      ${F("Стоимость", TI("price", p.price ? fromUZS(p.price) : "", "", "text", 'inputmode="decimal"'))}
+      ${F("Оплачено", TI("paid", (p.id ? "" : fromUZS(p.paid || 0)) || "0", "", "text", 'inputmode="decimal"'))}
+    </div>
+    ${p.id ? `<div class="hint">Оплачено: ${M(p.paid || 0)}. Оплаты вносите кнопкой «Оплата клиента» — они автоматически создают доход.</div>` : ""}
+    <div class="grid2">
+      ${F("Дата начала", TD("startDate", p.startDate || todayStr()))}
+      ${F("Дедлайн", TD("deadline", p.deadline || ago(-30)))}
+    </div>
+    <div class="grid2">
+      ${F("Статус", TS("status", PROJ_ST, p.status || "Новый", ""))}
+      ${F(`Процент выполнения: <b id="pr-val">${p.progress || 0}%</b>`, `<input type="range" name="progress" min="0" max="100" value="${p.progress || 0}" oninput="document.getElementById('pr-val').textContent=this.value+'%'">`)}
+    </div>
+    ${F("Описание", TA("desc", p.desc || "", ""))}
+    <button class="btn btn-p btn-block" type="submit">${p.id ? "Сохранить" : "Создать проект"}</button>
+  </form>`,
+          { wide: true },
+        );
+      }
+      function mProjectPay(p) {
+        const debt = Math.max(0, (p.price || 0) - (p.paid || 0));
+        const c = clientById(p.clientId);
+        modal(
+          "Оплата клиента",
+          `
+    <p style="margin-bottom:4px"><b>${esc(p.name)}</b>${c ? " · " + esc(c.company) : ""}</p>
+    <p class="hint" style="margin-bottom:14px">Стоимость ${M(p.price || 0)} · Оплачено ${M(p.paid || 0)} · Остаток <b style="color:var(--red)">${M(debt)}</b>.<br>Платёж автоматически создаст доход и обновит баланс.</p>
+    <form data-form="projpay" class="stack">
+      <input type="hidden" name="id" value="${p.id}">
+      ${F("Сумма платежа *", TI("amount", fromUZS(debt || p.price || 0), "", "", 'inputmode="decimal"'))}
+      <div class="grid2">${F("Дата", TD("date", todayStr()))}<div></div></div>
+      ${F("Комментарий", TI("comment", "", "Например: предоплата 50%"))}
+      <button class="btn btn-p btn-block" type="submit">${I("wallet", 16)} Принять оплату</button>
+    </form>`,
+        );
+      }
+
+      /* ============================================================
+   СТРАНИЦА: ЗАДАЧИ
+============================================================ */
+      function rTasks() {
+        const t = todayStr(),
+          week = ago(-7);
+        let list = [...DB.tasks];
+        if (UI.taskProj) list = list.filter((x) => x.projectId === UI.taskProj);
+        if (UI.taskTab === "today")
+          list = list.filter((x) => x.deadline === t && x.status !== "Готово");
+        else if (UI.taskTab === "overdue")
+          list = list.filter(
+            (x) => x.deadline && x.deadline < t && x.status !== "Готово",
+          );
+        else if (UI.taskTab === "week")
+          list = list.filter((x) => x.deadline >= t && x.deadline <= week);
+        const prOrder = Object.fromEntries(
+          PRIORITIES.map((p, i) => [p, 3 - i]),
+        );
+        list.sort(
+          (a, b) =>
+            (b.deadline === t) - (a.deadline === t) ||
+            prOrder[b.priority] - prOrder[a.priority],
+        );
+        const cnt = (k) =>
+          DB.tasks.filter((x) => {
+            if (k === "today") return x.deadline === t && x.status !== "Готово";
+            if (k === "overdue")
+              return x.deadline && x.deadline < t && x.status !== "Готово";
+            if (k === "week") return x.deadline >= t && x.deadline <= week;
+            return true;
+          }).length;
+        P(`
+  <div class="page-head">
+    <div><h2 style="font-family:'Space Grotesk'">Задачи</h2><p>Планируйте и отслеживайте работу по проектам</p></div>
+    <button class="btn btn-p" data-act="qa-task">${I("plus", 16)} Новая задача</button>
+  </div>
+  <div class="toolbar">
+    <div class="tabs" style="margin-bottom:0">
+      <button class="${UI.taskTab === "today" ? "on" : ""}" data-act="task-tab" data-id="today">Сегодня (${cnt("today")})</button>
+      <button class="${UI.taskTab === "overdue" ? "on" : ""}" data-act="task-tab" data-id="overdue">Просроченные (${cnt("overdue")})</button>
+      <button class="${UI.taskTab === "week" ? "on" : ""}" data-act="task-tab" data-id="week">На неделю (${cnt("week")})</button>
+      <button class="${UI.taskTab === "all" ? "on" : ""}" data-act="task-tab" data-id="all">Все (${cnt("all")})</button>
+    </div>
+    <select class="inp" style="max-width:220px" data-live="task-proj">
+      <option value="">Все проекты</option>
+      ${DB.projects.map((p) => `<option value="${p.id}" ${UI.taskProj === p.id ? "selected" : ""}>${esc(p.name)}</option>`).join("")}
+    </select>
+  </div>
+  ${
+    list.length
+      ? `<div class="tbl-wrap"><table class="tbl">
+    <tr><th></th><th>Задача</th><th>Приоритет</th><th>Дедлайн</th><th class="hide-m">Проект</th><th>Статус</th><th></th></tr>
+    ${list
+      .map((x) => {
+        const pr = projectById(x.projectId);
+        const over = x.deadline && x.deadline < t && x.status !== "Готово";
+        return `<tr>
+      <td><input type="checkbox" class="cbx" data-act="task-toggle" data-id="${x.id}" ${x.status === "Готово" ? "checked" : ""} title="Выполнено"></td>
+      <td><b style="${x.status === "Готово" ? "text-decoration:line-through;opacity:.55" : ""}">${esc(x.title)}</b>${x.desc ? `<div style="font-size:.76rem;color:var(--muted)">${esc(x.desc)}</div>` : ""}</td>
+      <td>${bdg(x.priority)}</td>
+      <td style="color:${over ? "var(--red)" : "inherit"};font-weight:${over ? "800" : "500"}">${x.deadline ? fmtD(x.deadline) : "—"}${over ? " ⚠" : ""}</td>
+      <td class="hide-m" style="color:var(--muted)">${pr ? esc(pr.name) : "—"}</td>
+      <td><select class="inp" style="padding:6px 28px 6px 10px;font-size:.8rem;min-width:140px" data-live="task-status" data-id="${x.id}">${TASK_ST.map((s) => `<option ${x.status === s ? "selected" : ""}>${s}</option>`).join("")}</select></td>
+      <td><div class="row-acts">
+        <button class="mini-btn" data-act="task-edit" data-id="${x.id}">${I("edit", 14)}</button>
+        <button class="mini-btn danger" data-act="task-del" data-id="${x.id}">${I("trash", 14)}</button>
+      </div></td></tr>`;
+      })
+      .join("")}
+  </table></div>`
+      : emptyBox(
+          "check",
+          UI.taskTab === "all" ? "Задач пока нет" : "В этом фильтре задач нет",
+          "",
+          `<button class="btn btn-p" data-act="qa-task">Добавить задачу</button>`,
+        )
+  }
+  `);
+      }
+      function mTask(t) {
+        t = t || {};
+        modal(
+          t.id ? "Редактировать задачу" : "Новая задача",
+          `
+  <form data-form="task" class="stack">
+    <input type="hidden" name="id" value="${t.id || ""}">
+    ${F("Название задачи *", TI("title", t.title || "", "Например: Позвонить клиенту"))}
+    ${F("Описание", TA("desc", t.desc || "", ""))}
+    <div class="grid2">
+      ${F("Приоритет", TS("priority", PRIORITIES, t.priority || "Средний", ""))}
+      ${F("Дедлайн", TD("deadline", t.deadline || todayStr()))}
+    </div>
+    <div class="grid2">
+      ${F(
+        "Проект",
+        TS(
+          "projectId",
+          DB.projects.map((p) => [p.id, p.name]),
+          t.projectId || "",
+          "Без проекта",
+        ),
+      )}
+      ${F(
+        "Клиент",
+        TS(
+          "clientId",
+          DB.clients.map((c) => [c.id, c.company]),
+          t.clientId || "",
+          "Без клиента",
+        ),
+      )}
+    </div>
+    ${F("Статус", TS("status", TASK_ST, t.status || "Запланировано", ""))}
+    <button class="btn btn-p btn-block" type="submit">${t.id ? "Сохранить" : "Создать задачу"}</button>
+  </form>`,
+          { wide: true },
+        );
+      }
+
+      /* ============================================================
+   СТРАНИЦА: ПРОДАЖИ (воронка)
+============================================================ */
+      function rSales() {
+        const total = DB.leads.length;
+        const sum = DB.leads.reduce((s, l) => s + Number(l.amount || 0), 0);
+        const deals = DB.leads.filter((l) => l.stage === 6).length;
+        const conv = total ? Math.round((deals / total) * 100) : 0;
+        P(`
+  <div class="page-head">
+    <div><h2 style="font-family:'Space Grotesk'">Продажи — воронка</h2><p>Перетаскивайте лиды между этапами</p></div>
+    <button class="btn btn-p" data-act="qa-lead">${I("plus", 16)} Новый лид</button>
+  </div>
+  <div class="kpis" style="margin-bottom:16px">
+    <div class="kpi"><div class="t">Лидов</div><b class="num">${total}</b></div>
+    <div class="kpi"><div class="t">Потенциальная сумма</div><b class="num">${M(sum)}</b></div>
+    <div class="kpi"><div class="t">Сделок</div><b class="num">${deals}</b></div>
+    <div class="kpi"><div class="t">Конверсия</div><b class="num">${conv}%</b></div>
+  </div>
+  <div class="kanban">
+    ${STAGES.map((st, i) => {
+      const items = DB.leads.filter((l) => l.stage === i);
+      const s = items.reduce((a, l) => a + Number(l.amount || 0), 0);
+      return `<div class="kcol" data-stage="${i}">
+        <div class="kcol-h">${st}<small>${items.length} лид(ов) · ${M(s)}</small></div>
+        <div class="kcol-b">${items
+          .map(
+            (l) => `
+          <div class="kcard" draggable="true" data-lead="${l.id}">
+            <b>${esc(l.name)}</b>
+            <span class="sum">${M(l.amount || 0)}</span>
+            ${l.comment ? `<div style="font-size:.74rem;color:var(--muted);margin-top:4px">${esc(l.comment)}</div>` : ""}
+            <div class="kcard-f">
+              <span style="font-size:.7rem;color:var(--muted)">${fmtD(l.createdAt)}</span>
+              <span class="kcard-nav">
+                ${i > 0 ? `<button data-act="lead-prev" data-id="${l.id}" title="Назад">${I("left", 13)}</button>` : ""}
+                ${i < 6 ? `<button data-act="lead-next" data-id="${l.id}" title="Вперёд">${I("right", 13)}</button>` : ""}
+                <button data-act="lead-edit" data-id="${l.id}">${I("edit", 13)}</button>
+                <button data-act="lead-del" data-id="${l.id}">${I("trash", 13)}</button>
+              </span>
+            </div>
+          </div>`,
+          )
+          .join("")}</div>
+      </div>`;
+    }).join("")}
+  </div>`);
+        // drag & drop
+        $$(".kcard").forEach((el) => {
+          el.addEventListener("dragstart", (e) => {
+            e.dataTransfer.setData("text/plain", el.dataset.lead);
+            el.style.opacity = ".5";
+          });
+          el.addEventListener("dragend", () => (el.style.opacity = "1"));
+        });
+        $$(".kcol").forEach((col) => {
+          col.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            col.classList.add("over");
+          });
+          col.addEventListener("dragleave", () => col.classList.remove("over"));
+          col.addEventListener("drop", (e) => {
+            e.preventDefault();
+            col.classList.remove("over");
+            const id = e.dataTransfer.getData("text/plain");
+            moveLead(id, +col.dataset.stage);
+          });
+        });
+      }
+      async function moveLead(id, stage) {
+        const l = DB.leads.find((x) => x.id === id);
+        if (!l || l.stage === stage) return;
+        const old = l.stage;
+        l.stage = stage;
+        act(
+          "lead",
+          `Лид «${l.name}» перемещён: ${STAGES[old]} → ${STAGES[stage]}`,
+        );
+        save();
+        if (stage >= 5 && old < 5 && Number(l.amount) > 0) {
+          if (
+            await ask(
+              `Лид «${esc(l.name)}» на этапе оплаты.<br>Записать <b>${M(l.amount)}</b> как доход?`,
+              { ok: "Да, записать доход", title: "Зафиксировать оплату" },
+            )
+          ) {
+            const inc = {
+              id: uid(),
+              title: "Сделка: " + l.name,
+              category: "Продажа",
+              amount: Number(l.amount),
+              date: todayStr(),
+              source: "Воронка продаж",
+              comment: "",
+            };
+            DB.incomes.unshift(inc);
+            act("finance", "Добавлен доход: " + inc.title, inc.amount);
+            toast("Доход записан: +" + M(inc.amount));
+            if (stage === 6) {
+              if (
+                await ask(`Создать клиента «${esc(l.name)}» из лида?`, {
+                  ok: "Создать клиента",
+                  title: "Конвертация",
+                })
+              ) {
+                DB.clients.push({
+                  id: uid(),
+                  company: l.name,
+                  contact: "",
+                  phone: "",
+                  email: "",
+                  instagram: "",
+                  telegram: "",
+                  niche: "",
+                  source: "Воронка продаж",
+                  service: l.comment || "",
+                  price: Number(l.amount) || 0,
+                  paid: Number(l.amount) || 0,
+                  status: "Оплачен",
+                  comment: "",
+                  createdAt: todayStr(),
+                });
+                act("client", "Создан клиент: " + l.name);
+                toast("Клиент создан");
+              }
+            }
+          }
+        }
+        save();
+        route();
+      }
+      function mLead(l) {
+        l = l || {};
+        modal(
+          l.id ? "Редактировать лид" : "Новый лид",
+          `
+  <form data-form="lead" class="stack">
+    <input type="hidden" name="id" value="${l.id || ""}">
+    ${F("Название / компания *", TI("name", l.name || "", "Например: UzBuild Group"))}
+    <div class="grid2">
+      ${F("Потенциальная сумма", TI("amount", l.amount ? fromUZS(l.amount) : "", "", "text", 'inputmode="decimal"'))}
+      ${F(
+        "Этап",
+        TS(
+          "stage",
+          STAGES.map((s, i) => [i, s]),
+          l.stage ?? 0,
+          "",
+        ),
+      )}
+    </div>
+    ${F("Комментарий", TI("comment", l.comment || "", "Что нужно клиенту"))}
+    <button class="btn btn-p btn-block" type="submit">${l.id ? "Сохранить" : "Добавить лид"}</button>
+  </form>`,
+        );
+      }
+
+      /* ============================================================
+   СТРАНИЦА: АНАЛИТИКА
+============================================================ */
+      function rAnalytics() {
+        const d = UI.anPeriod,
+          b = bucketsFor(d);
+        const inc = DB.incomes.filter((i) =>
+          daysTo(i.date) >= -0 && daysTo(i.date) <= d - 0 ? true : false,
+        );
+        const since = ago(d - 1);
+        const inP = DB.incomes.filter((i) => i.date >= since),
+          exP = DB.expenses.filter((i) => i.date >= since);
+        const sumIn = inP.reduce((s, i) => s + Number(i.amount), 0),
+          sumEx = exP.reduce((s, i) => s + Number(i.amount), 0);
+        const catSum = (arr, key) => {
+          const m = {};
+          arr.forEach((x) => {
+            m[x[key]] = (m[x[key]] || 0) + Number(x.amount);
+          });
+          return Object.entries(m)
+            .map(([label, value]) => ({ label, value }))
+            .sort((a, b) => b.value - a.value);
+        };
+        const deals = DB.leads.filter((l) => l.stage === 6).length;
+        const conv = DB.leads.length
+          ? Math.round((deals / DB.leads.length) * 100)
+          : 0;
+        const avg = sumIn && inP.length ? sumIn / inP.length : 0;
+        P(`
+  <div class="page-head">
+    <div><h2 style="font-family:'Space Grotesk'">Аналитика</h2><p>Все графики построены на ваших реальных данных</p></div>
+    <div class="seg">
+      ${[
+        [7, "7 дней"],
+        [30, "30 дней"],
+        [90, "3 мес"],
+        [180, "6 мес"],
+        [365, "12 мес"],
+      ]
+        .map(
+          ([v, t]) =>
+            `<button class="${d === v ? "on" : ""}" data-act="an-period" data-id="${v}">${t}</button>`,
+        )
+        .join("")}
+    </div>
+  </div>
+  <div class="kpis" style="margin-bottom:16px">
+    <div class="kpi"><div class="t">Доход за период</div><b class="num" style="color:var(--brand)">${M(sumIn)}</b></div>
+    <div class="kpi"><div class="t">Расходы за период</div><b class="num" style="color:var(--red)">${M(sumEx)}</b></div>
+    <div class="kpi"><div class="t">Прибыль</div><b class="num">${M(sumIn - sumEx)}</b></div>
+    <div class="kpi"><div class="t">Средний чек</div><b class="num">${M(avg)}</b></div>
+  </div>
+  <div class="kpis" style="margin-bottom:16px;grid-template-columns:repeat(5,1fr)">
+    <div class="kpi"><div class="t">Клиентов</div><b class="num">${DB.clients.length}</b></div>
+    <div class="kpi"><div class="t">Проектов</div><b class="num">${DB.projects.length}</b></div>
+    <div class="kpi"><div class="t">Лидов</div><b class="num">${DB.leads.length}</b></div>
+    <div class="kpi"><div class="t">Сделок</div><b class="num">${deals}</b></div>
+    <div class="kpi"><div class="t">Конверсия</div><b class="num">${conv}%</b></div>
+  </div>
+  <div class="cols" style="grid-template-columns:1fr 1fr">
+    <div class="card"><h3>${I("trend", 17)} Доходы и расходы</h3>${lineChart(b)}</div>
+    <div class="card"><h3>${I("wallet", 17)} Баланс (накопительно)</h3>${balanceChart(b)}</div>
+    <div class="card"><h3>${I("chart", 17)} Доходы по категориям</h3>${barList(catSum(inP, "category"))}</div>
+    <div class="card"><h3>${I("chart", 17)} Расходы по категориям</h3>${barList(catSum(exP, "category"), { exp: true })}</div>
+  </div>`);
+      }
+
+      /* ============================================================
+   СТРАНИЦА: ИСТОРИЯ
+============================================================ */
+      function rHistory() {
+        const f = UI.histF;
+        let list = DB.activities;
+        if (f !== "all")
+          list = list.filter((a) =>
+            f === "finance"
+              ? a.type === "finance"
+              : f === "goal"
+                ? a.type === "goal"
+                : a.type === f,
+          );
+        const chips = [
+          ["all", "Все"],
+          ["finance", "Финансы"],
+          ["goal", "Цели"],
+          ["client", "Клиенты"],
+          ["project", "Проекты"],
+          ["task", "Задачи"],
+          ["lead", "Продажи"],
+        ];
+        P(`
+  <div class="page-head">
+    <div><h2 style="font-family:'Space Grotesk'">История действий</h2><p>Единый журнал всех операций</p></div>
+  </div>
+  <div class="chips" style="margin-bottom:16px">${chips.map(([v, t]) => `<button class="chip${f === v ? " on" : ""}" data-act="hist-f" data-id="${v}">${t}</button>`).join("")}</div>
+  ${list.length ? `<div class="card" style="padding:8px 20px">${list.slice(0, 120).map(actRow).join("")}</div>` : emptyBox("hist", "Записей нет", "Действия будут появляться здесь автоматически")}
+  `);
+      }
+
+      /* ============================================================
+   СТРАНИЦА: НАСТРОЙКИ
+============================================================ */
+      function rSettings() {
+        const s = DB.settings;
+        P(`
+  <div class="page-head"><div><h2 style="font-family:'Space Grotesk'">Настройки</h2><p>Профиль, валюта, тема и данные</p></div></div>
+  <div class="set-grid">
+    <div class="card"><h3>${I("users", 17)} Профиль</h3>
+      <form data-form="profile" class="stack">
+        ${F("Имя", TI("name", USER.name, ""))}
+        ${F("Email", TI("email", USER.email, "", "email"))}
+        <button class="btn btn-p" type="submit" style="width:max-content">Сохранить профиль</button>
+      </form>
+    </div>
+    <div class="card"><h3>${I("sliders", 17)} Смена пароля</h3>
+      <form data-form="chpass" class="stack">
+        ${F("Текущий пароль", TI("old", "", "", "password"))}
+        <div class="grid2">
+          ${F("Новый пароль", TI("p1", "", "Минимум 6 символов", "password"))}
+          ${F("Повторите новый", TI("p2", "", "", "password"))}
+        </div>
+        <button class="btn btn-g" type="submit" style="width:max-content">Обновить пароль</button>
+      </form>
+    </div>
+    <div class="card"><h3>${I("wallet", 17)} Валюта</h3>
+      <div class="grid2">
+        ${F("Основная валюта", `<select class="inp" data-live="set-currency">${["UZS", "USD"].map((c) => `<option ${s.currency === c ? "selected" : ""}>${c}</option>`).join("")}</select>`)}
+        ${F("Курс USD (сум за 1 $)", TI("usdRate", s.usdRate, "", "text", 'inputmode="decimal" data-live="set-rate"'))}
+      </div>
+      <div class="hint">Курс используется для автоматического пересчёта всех сумм при переключении на USD.</div>
+    </div>
+    <div class="card"><h3>${I("sun", 17)} Тема оформления</h3>
+      <div class="seg" style="width:max-content">
+        ${[
+          ["light", "Светлая"],
+          ["dark", "Тёмная"],
+          ["system", "Системная"],
+        ]
+          .map(
+            ([v, t]) =>
+              `<button class="${s.theme === v ? "on" : ""}" data-act="set-theme" data-id="${v}">${t}</button>`,
+          )
+          .join("")}
+      </div>
+    </div>
+    <div class="card"><h3>${I("bell", 17)} Уведомления</h3>
+      <div style="display:grid;gap:10px">
+        ${[
+          ["notifGoals", "Напоминания о целях"],
+          ["notifDeadlines", "Дедлайны проектов"],
+          ["notifTasks", "Задачи на сегодня и просроченные"],
+          ["notifPayments", "Платежи по обязательствам"],
+          ["notifIncome", "Сравнение дохода с прошлым месяцем"],
+        ]
+          .map(
+            ([k, t]) => `
+        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:.9rem">
+          <input type="checkbox" class="cbx" data-live="set-notif" data-id="${k}" ${s[k] ? "checked" : ""}> ${t}
+        </label>`,
+          )
+          .join("")}
+      </div>
+    </div>
+    <div class="card"><h3>${I("hist", 17)} Данные</h3>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-g btn-sm" data-act="export-json">${I("down", 15)} Экспорт данных (JSON)</button>
+      </div>
+    </div>
+    <div class="danger-zone">
+      <h3 style="color:var(--red);margin-bottom:8px">${I("alert", 17)} Опасная зона</h3>
+      <p style="font-size:.88rem;margin-bottom:12px">Полное удаление всех данных: целей, финансов, клиентов, проектов, задач и лидов.</p>
+      <button class="btn btn-d btn-sm" data-act="wipe-data">${I("trash", 15)} Очистить все данные</button>
+    </div>
+  </div>`);
+      }
+
+      /* ============================================================
+   ФОРМЫ (обработчики)
+============================================================ */
+      const FORMS = {
+        async register(fd) {
+          const name = fd.get("name").trim(),
+            email = fd.get("email").trim().toLowerCase(),
+            p1 = fd.get("pass"),
+            p2 = fd.get("pass2");
+          if (!name || !email || !p1) return authErr("Заполните все поля");
+          if (!/^\S+@\S+\.\S+$/.test(email))
+            return authErr("Некорректный email");
+          if (p1.length < 6)
+            return authErr("Пароль должен быть не короче 6 символов");
+          if (p1 !== p2) return authErr("Пароли не совпадают");
+          const users = Store.users();
+          if (users.some((u) => u.email === email))
+            return authErr("Пользователь с таким email уже существует");
+          const salt = uid() + uid();
+          const user = {
+            id: uid(),
+            name,
+            email,
+            salt,
+            pass: await hashPass(p1, salt),
+            createdAt: Date.now(),
+          };
+          users.push(user);
+          Store.saveUsers(users);
+          Store.setSession(user.id);
+          loadUser(user.id);
+          act("system", "Аккаунт создан. Добро пожаловать в RNR OS!");
+          save();
+          location.hash = "#/app/dashboard";
+          route();
+          toast(`Добро пожаловать, ${esc(name)}! Аккаунт создан 🎉`);
+        },
+        async login(fd) {
+          const email = fd.get("email").trim().toLowerCase(),
+            pass = fd.get("pass");
+          const user = Store.users().find((u) => u.email === email);
+          if (!user) return authErr("Аккаунт с таким email не найден");
+          const h = await hashPass(pass, user.salt);
+          if (h !== user.pass)
+            return authErr("Неверный пароль. Попробуйте ещё раз");
+          Store.setSession(user.id);
+          loadUser(user.id);
+          location.hash = "#/app/dashboard";
+          route();
+          toast(`С возвращением, ${esc(user.name)}!`);
+        },
+        goal(fd) {
+          const id = fd.get("id");
+          const target = toUZS(fd.get("target"));
+          if (!fd.get("name").trim())
+            return toast("Укажите название цели", "err");
+          if (target <= 0)
+            return toast("Целевая сумма должна быть больше нуля", "err");
+          if (id) {
+            const g = goalById(id);
+            Object.assign(g, {
+              name: fd.get("name").trim(),
+              target,
+              deadline: fd.get("deadline"),
+              priority: fd.get("priority"),
+              category: fd.get("category"),
+              desc: fd.get("desc"),
+            });
+            act("goal", "Цель обновлена: " + g.name);
+            toast("Цель обновлена");
+          } else {
+            const start = toUZS(fd.get("start"));
+            const g = {
+              id: uid(),
+              name: fd.get("name").trim(),
+              target,
+              saved: Math.min(start, target),
+              deadline: fd.get("deadline"),
+              priority: fd.get("priority"),
+              category: fd.get("category"),
+              desc: fd.get("desc"),
+              status: start >= target ? "done" : "active",
+              createdAt: todayStr(),
+            };
+            DB.goals.unshift(g);
+            if (start > 0) {
+              DB.goalTx.push({
+                id: uid(),
+                goalId: g.id,
+                amount: g.saved,
+                date: todayStr(),
+                source: "Личные деньги",
+                comment: "Начальная сумма",
+                balanceAfter: g.saved,
+                ts: Date.now(),
+              });
+            }
+            act("goal", "Создана цель: " + g.name + " (" + M(g.target) + ")");
+            toast("Цель создана");
+          }
+          save();
+          closeModal();
+          route();
+        },
+        topup(fd) {
+          const goalId = fd.get("goalId"),
+            amount = toUZS(fd.get("amount"));
+          const g = goalById(goalId);
+          if (!g) return toast("Выберите цель", "err");
+          if (amount <= 0) return toast("Введите сумму пополнения", "err");
+          DB.goalTx.push({
+            id: uid(),
+            goalId,
+            amount,
+            date: fd.get("date") || todayStr(),
+            source: fd.get("source"),
+            comment: fd.get("comment"),
+            ts: Date.now(),
+          });
+          recomputeGoalTx(goalId);
+          act("goal", `Пополнена цель «${g.name}»`, amount);
+          save();
+          closeModal();
+          route();
+          toast(`Цель пополнена: +${M(amount)}`);
+        },
+        "ghtx-edit"(fd) {
+          const t = DB.goalTx.find((x) => x.id === fd.get("id"));
+          if (!t) return;
+          const amount = toUZS(fd.get("amount"));
+          if (amount <= 0) return toast("Сумма должна быть больше нуля", "err");
+          Object.assign(t, {
+            amount,
+            date: fd.get("date"),
+            source: fd.get("source"),
+            comment: fd.get("comment"),
+          });
+          recomputeGoalTx(t.goalId);
+          act("goal", "Изменено пополнение цели");
+          save();
+          closeModal();
+          const g = goalById(t.goalId);
+          if (g) mGoalHistory(g.id);
+          else route();
+          toast("Операция обновлена");
+        },
+        obligation(fd) {
+          const g = goalById(fd.get("id"));
+          if (!g) return;
+          const monthly = toUZS(fd.get("monthly")),
+            count = parseInt(fd.get("count")) || 0;
+          if (monthly <= 0 || count <= 0)
+            return toast("Укажите платёж и количество", "err");
+          g.status = "obligation";
+          g.obligation = {
+            monthly,
+            count,
+            paidCount: 0,
+            next: fd.get("next") || ago(-30),
+          };
+          act(
+            "goal",
+            `Цель «${g.name}» преобразована в обязательство: ${count} платежей по ${M(monthly)}`,
+          );
+          save();
+          closeModal();
+          route();
+          toast("Обязательство создано");
+        },
+        income(fd) {
+          const id = fd.get("id"),
+            amount = toUZS(fd.get("amount"));
+          if (!fd.get("title").trim())
+            return toast("Укажите название дохода", "err");
+          if (amount <= 0) return toast("Сумма должна быть больше нуля", "err");
+          let inc;
+          if (id) {
+            inc = DB.incomes.find((i) => i.id === id);
+            Object.assign(inc, {
+              title: fd.get("title").trim(),
+              category: fd.get("category"),
+              amount,
+              date: fd.get("date"),
+              source: fd.get("source"),
+              comment: fd.get("comment"),
+            });
+            toast("Доход обновлён");
+          } else {
+            inc = {
+              id: uid(),
+              title: fd.get("title").trim(),
+              category: fd.get("category"),
+              amount,
+              date: fd.get("date"),
+              source: fd.get("source"),
+              comment: fd.get("comment"),
+            };
+            DB.incomes.unshift(inc);
+            act("finance", "Добавлен доход: " + inc.title, amount);
+            toast("Доход успешно добавлен: +" + M(amount));
+          }
+          save();
+          closeModal();
+          route();
+          if (!id) mAllocate(inc);
+        },
+        expense(fd) {
+          const id = fd.get("id"),
+            amount = toUZS(fd.get("amount"));
+          if (!fd.get("title").trim())
+            return toast("Укажите название расхода", "err");
+          if (amount <= 0) return toast("Сумма должна быть больше нуля", "err");
+          if (id) {
+            const e = DB.expenses.find((i) => i.id === id);
+            Object.assign(e, {
+              title: fd.get("title").trim(),
+              category: fd.get("category"),
+              amount,
+              date: fd.get("date"),
+              comment: fd.get("comment"),
+            });
+            toast("Расход обновлён");
+          } else {
+            DB.expenses.unshift({
+              id: uid(),
+              title: fd.get("title").trim(),
+              category: fd.get("category"),
+              amount,
+              date: fd.get("date"),
+              comment: fd.get("comment"),
+            });
+            act(
+              "finance",
+              "Добавлен расход: " + fd.get("title").trim(),
+              -amount,
+            );
+            toast("Расход добавлен: −" + M(amount));
+          }
+          save();
+          closeModal();
+          route();
+        },
+        allocate(fd) {
+          const income = DB.incomes.find((i) => i.id === fd.get("incomeId"));
+          if (!income) return closeModal();
+          const limit = Number(income.amount);
+          if (allocTotal() > limit)
+            return toast("Сумма распределения превышает доход", "err");
+          let n = 0;
+          $$("#alloc-rows .alloc-row").forEach((r) => {
+            const gid = r.querySelector("[name=goal]").value,
+              amt = toUZS(r.querySelector("[name=amt]").value);
+            if (gid && amt > 0) {
+              const g = goalById(gid);
+              if (g) {
+                DB.goalTx.push({
+                  id: uid(),
+                  goalId: gid,
+                  amount: amt,
+                  date: todayStr(),
+                  source: "Другое",
+                  comment: "Распределение дохода «" + income.title + "»",
+                  ts: Date.now(),
+                });
+                recomputeGoalTx(gid);
+                act(
+                  "goal",
+                  `Пополнена цель «${g.name}» (распределение дохода)`,
+                  amt,
+                );
+                n++;
+              }
+            }
+          });
+          const biz = toUZS(fd.get("biz")),
+            res = toUZS(fd.get("reserve"));
+          if (biz > 0) act("finance", "Распределено в бизнес", biz);
+          if (res > 0) act("finance", "Отложено в резерв", res);
+          save();
+          closeModal();
+          route();
+          toast(
+            n || biz || res ? "Доход распределён ✓" : "Распределение пропущено",
+          );
+        },
+        client(fd) {
+          const id = fd.get("id");
+          if (!fd.get("company").trim())
+            return toast("Укажите название компании", "err");
+          const data = {
+            company: fd.get("company").trim(),
+            contact: fd.get("contact"),
+            phone: fd.get("phone"),
+            email: fd.get("email"),
+            instagram: fd.get("instagram"),
+            telegram: fd.get("telegram"),
+            niche: fd.get("niche"),
+            source: fd.get("source"),
+            service: fd.get("service"),
+            status: fd.get("status"),
+            price: toUZS(fd.get("price")),
+            paid: toUZS(fd.get("paid")),
+            comment: fd.get("comment"),
+          };
+          if (id) {
+            Object.assign(clientById(id), data);
+            act("client", "Клиент обновлён: " + data.company);
+            toast("Клиент обновлён");
+          } else {
+            DB.clients.unshift({ id: uid(), ...data, createdAt: todayStr() });
+            act("client", "Создан клиент: " + data.company);
+            toast("Клиент создан");
+          }
+          save();
+          closeModal();
+          route();
+        },
+        project(fd) {
+          const id = fd.get("id");
+          if (!fd.get("name").trim())
+            return toast("Укажите название проекта", "err");
+          const price = toUZS(fd.get("price"));
+          if (id) {
+            const p = projectById(id);
+            Object.assign(p, {
+              name: fd.get("name").trim(),
+              clientId: fd.get("clientId"),
+              service: fd.get("service"),
+              price,
+              startDate: fd.get("startDate"),
+              deadline: fd.get("deadline"),
+              status: fd.get("status"),
+              progress: +fd.get("progress") || 0,
+              desc: fd.get("desc"),
+            });
+            act("project", "Проект обновлён: " + p.name);
+            toast("Проект обновлён");
+          } else {
+            const paid = Math.min(toUZS(fd.get("paid")), price);
+            const p = {
+              id: uid(),
+              name: fd.get("name").trim(),
+              clientId: fd.get("clientId"),
+              service: fd.get("service"),
+              price,
+              paid,
+              startDate: fd.get("startDate"),
+              deadline: fd.get("deadline"),
+              status: fd.get("status"),
+              progress: +fd.get("progress") || 0,
+              desc: fd.get("desc"),
+            };
+            DB.projects.unshift(p);
+            act(
+              "project",
+              "Создан проект: " +
+                p.name +
+                (p.price ? " (" + M(p.price) + ")" : ""),
+            );
+            if (paid > 0) {
+              const c = clientById(p.clientId);
+              DB.incomes.unshift({
+                id: uid(),
+                title: "Оплата проекта: " + p.name,
+                category: "Проект",
+                amount: paid,
+                date: todayStr(),
+                source: c ? c.company : "",
+                comment: "Начальная оплата",
+                projectId: p.id,
+                clientId: p.clientId,
+              });
+              if (c) c.paid = (c.paid || 0) + paid;
+              act("finance", "Добавлен доход: Оплата проекта " + p.name, paid);
+            }
+            toast("Проект создан");
+          }
+          save();
+          closeModal();
+          route();
+        },
+        projpay(fd) {
+          const p = projectById(fd.get("id"));
+          if (!p) return;
+          const amount = toUZS(fd.get("amount"));
+          if (amount <= 0) return toast("Введите сумму платежа", "err");
+          p.paid = (p.paid || 0) + amount;
+          const c = clientById(p.clientId);
+          if (c) c.paid = (c.paid || 0) + amount;
+          DB.incomes.unshift({
+            id: uid(),
+            title: "Оплата проекта: " + p.name,
+            category: "Проект",
+            amount,
+            date: fd.get("date") || todayStr(),
+            source: c ? c.company : "",
+            comment: fd.get("comment"),
+            projectId: p.id,
+            clientId: p.clientId,
+          });
+          act(
+            "finance",
+            `Оплата проекта «${p.name}»${c ? " от " + c.company : ""}`,
+            amount,
+          );
+          if (p.paid >= p.price && p.status !== "Завершён")
+            toast(`Проект «${esc(p.name)}» оплачен полностью 🎉`, "warn");
+          save();
+          closeModal();
+          route();
+          toast("Оплата принята: +" + M(amount) + ". Баланс обновлён");
+        },
+        task(fd) {
+          const id = fd.get("id");
+          if (!fd.get("title").trim())
+            return toast("Укажите название задачи", "err");
+          const data = {
+            title: fd.get("title").trim(),
+            desc: fd.get("desc"),
+            priority: fd.get("priority"),
+            deadline: fd.get("deadline"),
+            projectId: fd.get("projectId"),
+            clientId: fd.get("clientId"),
+            status: fd.get("status"),
+          };
+          if (id) {
+            Object.assign(
+              DB.tasks.find((t) => t.id === id),
+              data,
+            );
+            toast("Задача обновлена");
+          } else {
+            DB.tasks.unshift({ id: uid(), ...data, createdAt: todayStr() });
+            act("task", "Создана задача: " + data.title);
+            toast("Задача создана");
+          }
+          save();
+          closeModal();
+          route();
+        },
+        lead(fd) {
+          const id = fd.get("id");
+          if (!fd.get("name").trim())
+            return toast("Укажите название лида", "err");
+          const data = {
+            name: fd.get("name").trim(),
+            amount: toUZS(fd.get("amount")),
+            stage: +fd.get("stage") || 0,
+            comment: fd.get("comment"),
+          };
+          if (id) {
+            Object.assign(
+              DB.leads.find((l) => l.id === id),
+              data,
+            );
+            toast("Лид обновлён");
+          } else {
+            DB.leads.unshift({ id: uid(), ...data, createdAt: todayStr() });
+            act("lead", "Добавлен лид: " + data.name, data.amount || null);
+            toast("Лид добавлен в воронку");
+          }
+          save();
+          closeModal();
+          route();
+        },
+        profile(fd) {
+          const name = fd.get("name").trim(),
+            email = fd.get("email").trim().toLowerCase();
+          if (!name || !email) return toast("Имя и email обязательны", "err");
+          if (Store.users().some((u) => u.email === email && u.id !== USER.id))
+            return toast("Этот email уже занят", "err");
+          USER.name = name;
+          USER.email = email;
+          Store.saveUsers(Store.users());
+          toast("Профиль сохранён");
+          route();
+        },
+        async chpass(fd) {
+          const old = fd.get("old"),
+            p1 = fd.get("p1"),
+            p2 = fd.get("p2");
+          if ((await hashPass(old, USER.salt)) !== USER.pass)
+            return toast("Текущий пароль неверный", "err");
+          if (p1.length < 6)
+            return toast("Новый пароль слишком короткий", "err");
+          if (p1 !== p2) return toast("Пароли не совпадают", "err");
+          USER.pass = await hashPass(p1, USER.salt);
+          Store.saveUsers(Store.users());
+          toast("Пароль обновлён");
+          route();
+        },
+      };
+
+      /* ============================================================
+   ДЕЙСТВИЯ (делегирование кликов)
+============================================================ */
+      const ACTS = {
+        "close-modal": () => closeModal(),
+        "go-login": () => pageAuth("login"),
+        "go-register": () => pageAuth("reg"),
+        "demo-login": async () => {
+          let users = Store.users(),
+            u = users.find((x) => x.email === "demo@rnr.uz");
+          if (!u) {
+            u = {
+              id: "demo-user",
+              name: "Руслан",
+              email: "demo@rnr.uz",
+              salt: "demo",
+              pass: await hashPass("demo1234", "demo"),
+              createdAt: Date.now(),
+              isDemo: true,
+            };
+            users.push(u);
+            Store.saveUsers(users);
+          }
+          Store.setSession(u.id);
+          loadUser(u.id);
+          if (!DB.goals.length && !DB.clients.length) {
+            await seedDemoData();
+          }
+          location.hash = "#/app/dashboard";
+          route();
+          toast("Вы вошли в демо-режим. Данные можно удалить в настройках.");
+        },
+        logout: () => {
+          Store.setSession(null);
+          USER = null;
+          DB = null;
+          closeModal();
+          location.hash = "";
+          pageAuth("login");
+          toast("Вы вышли из аккаунта");
+        },
+        goto: (id) => {
+          closePanel();
+          nav(id);
+        },
+        "more-nav": () => {
+          modal(
+            "Разделы",
+            `<div style="display:grid;gap:6px">${NAV.map(([r, t, ic]) => `<button class="btn btn-g" style="justify-content:flex-start" data-act="goto" data-id="${r}">${I(ic, 17)} ${t}</button>`).join("")}</div>`,
+          );
+        },
+        "set-theme": (id) => {
+          DB.settings.theme = id;
+          save();
+          applyTheme();
+          route();
+        },
+        "set-cur": (id) => {
+          DB.settings.currency = id;
+          save();
+          route();
+          toast("Валюта: " + id);
+        },
+        "bell-toggle": () => {
+          const p = $("#bell-panel");
+          $("#user-menu")?.classList.remove("open");
+          if (p.classList.contains("open")) {
+            p.classList.remove("open");
+          } else {
+            renderBellPanel();
+            p.classList.add("open");
+          }
+        },
+        "bell-read": (id) => {
+          DB.notifRead[id] = true;
+          save();
+          renderBellPanel();
+          updateBellBadge();
+        },
+        "bell-readall": () => {
+          computeNotifs().forEach((n) => (DB.notifRead[n.key] = true));
+          save();
+          renderBellPanel();
+          updateBellBadge();
+        },
+        "menu-toggle": () => {
+          $("#bell-panel")?.classList.remove("open");
+          $("#user-menu").classList.toggle("open");
+        },
+        /* quick actions */
+        "qa-income": () => mIncome(),
+        "qa-expense": () => mExpense(),
+        "qa-client": () => mClient(),
+        "qa-project": (id) => mProject(null, id),
+        "qa-task": () => mTask(),
+        "qa-topup": (id) => mTopUp(id),
+        "qa-goal": () => mGoal(),
+        "qa-lead": () => mLead(),
+        /* goals */
+        "goal-tab": (id) => {
+          UI.goalTab = id;
+          rGoals();
+        },
+        "goal-edit": (id) => mGoal(goalById(id)),
+        "goal-history": (id) => mGoalHistory(id),
+        "goal-to-obl": (id) => mObligation(goalById(id)),
+        "goal-del": async (id) => {
+          const g = goalById(id);
+          if (
+            await ask(
+              `Удалить цель «${esc(g.name)}»? Вся история пополнений будет удалена.<br>Это действие нельзя отменить.`,
+            )
+          ) {
+            DB.goals = DB.goals.filter((x) => x.id !== id);
+            DB.goalTx = DB.goalTx.filter((t) => t.goalId !== id);
+            act("goal", "Удалена цель: " + g.name);
+            save();
+            closeModal();
+            route();
+            toast("Цель удалена");
+          }
+        },
+        "gh-sort": (id) => {
+          UI.ghSort = id;
+          const t = DB.goalTx.find((x) => x.id);
+          const gid = $$("#modal-root select[data-live=gh-src]").length;
+          const g = DB.goals.find((g) =>
+            DB.goalTx.some((t2) => t2.goalId === g.id),
+          );
+          const opened = DB.goalTx.filter((t) => true);
+          const g2 = currentGoalHistId;
+          if (g2) mGoalHistory(g2);
+        },
+        "ghtx-edit": (id) => {
+          const t = DB.goalTx.find((x) => x.id === id);
+          if (t) {
+            currentGoalHistId = t.goalId;
+            mGoalTxEdit(t);
+          }
+        },
+        "ghtx-del": async (id) => {
+          const t = DB.goalTx.find((x) => x.id === id);
+          if (!t) return;
+          const g = goalById(t.goalId);
+          if (
+            await ask(
+              `Удалить пополнение на ${M(t.amount)}?${g ? ` Баланс цели «${esc(g.name)}» будет пересчитан.` : ""}`,
+            )
+          ) {
+            DB.goalTx = DB.goalTx.filter((x) => x.id !== id);
+            if (g) recomputeGoalTx(g.id);
+            act(
+              "goal",
+              "Удалено пополнение цели" + (g ? " «" + g.name + "»" : ""),
+              -t.amount,
+            );
+            save();
+            if (g && $("#modal-root .sheet")) mGoalHistory(g.id);
+            else route();
+            toast("Операция удалена");
+          }
+        },
+        "obl-pay": async (id) => {
+          const g = goalById(id);
+          const o = g.obligation;
+          if (
+            await ask(
+              `Внести платёж <b>${M(o.monthly)}</b> по «${esc(g.name)}»?<br>Платёж будет записан как расход.`,
+              { ok: "Внести платёж", title: "Платёж по обязательству" },
+            )
+          ) {
+            o.paidCount = (o.paidCount || 0) + 1;
+            const nd = new Date(o.next);
+            nd.setMonth(nd.getMonth() + 1);
+            o.next = d2s(nd);
+            DB.expenses.unshift({
+              id: uid(),
+              title: `Платёж по обязательству «${g.name}» (${o.paidCount}/${o.count})`,
+              category: "Другое",
+              amount: o.monthly,
+              date: todayStr(),
+              comment: "",
+            });
+            act(
+              "goal",
+              `Платёж по «${g.name}»: ${o.paidCount}/${o.count}`,
+              -o.monthly,
+            );
+            save();
+            route();
+            toast(
+              o.paidCount >= o.count
+                ? "Обязательство выплачено полностью 🎉"
+                : "Платёж внесён: −" + M(o.monthly),
+            );
+          }
+        },
+        /* finance */
+        "fin-tab": (id) => {
+          UI.finTab = id;
+          rFinance();
+        },
+        "inc-edit": (id) => mIncome(DB.incomes.find((i) => i.id === id)),
+        "inc-del": async (id) => {
+          const i = DB.incomes.find((x) => x.id === id);
+          if (
+            await ask(
+              `Удалить доход «${esc(i.title)}» (${M(i.amount)})? Это действие нельзя отменить.`,
+            )
+          ) {
+            DB.incomes = DB.incomes.filter((x) => x.id !== id);
+            act("finance", "Удалён доход: " + i.title, -i.amount);
+            save();
+            route();
+            toast("Доход удалён");
+          }
+        },
+        "exp-edit": (id) => mExpense(DB.expenses.find((i) => i.id === id)),
+        "exp-del": async (id) => {
+          const e = DB.expenses.find((x) => x.id === id);
+          if (
+            await ask(
+              `Удалить расход «${esc(e.title)}» (${M(e.amount)})? Это действие нельзя отменить.`,
+            )
+          ) {
+            DB.expenses = DB.expenses.filter((x) => x.id !== id);
+            act("finance", "Удалён расход: " + e.title, e.amount);
+            save();
+            route();
+            toast("Расход удалён");
+          }
+        },
+        "alloc-add": () => window.__addAllocRow && window.__addAllocRow(""),
+        "alloc-rm": (id, e) => {
+          e.target.closest(".alloc-row").remove();
+          updAllocSum();
+        },
+        /* clients */
+        "client-card": (id) => mClientCard(id),
+        "client-edit": (id) => mClient(clientById(id)),
+        "client-del": async (id) => {
+          const c = clientById(id);
+          if (
+            await ask(
+              `Удалить клиента «${esc(c.company)}»? Это действие нельзя отменить.`,
+            )
+          ) {
+            DB.clients = DB.clients.filter((x) => x.id !== id);
+            act("client", "Удалён клиент: " + c.company);
+            save();
+            closeModal();
+            route();
+            toast("Клиент удалён");
+          }
+        },
+        /* projects */
+        "proj-edit": (id) => mProject(projectById(id)),
+        "proj-pay": (id) => mProjectPay(projectById(id)),
+        "proj-tasks": (id) => {
+          UI.taskProj = id;
+          UI.taskTab = "all";
+          nav("tasks");
+        },
+        "proj-del": async (id) => {
+          const p = projectById(id);
+          if (
+            await ask(
+              `Удалить проект «${esc(p.name)}»? Связанные задачи останутся без проекта.`,
+            )
+          ) {
+            DB.projects = DB.projects.filter((x) => x.id !== id);
+            DB.tasks.forEach((t) => {
+              if (t.projectId === id) t.projectId = "";
+            });
+            act("project", "Удалён проект: " + p.name);
+            save();
+            closeModal();
+            route();
+            toast("Проект удалён");
+          }
+        },
+        /* tasks */
+        "task-tab": (id) => {
+          UI.taskTab = id;
+          rTasks();
+        },
+        "task-toggle": (id) => {
+          const t = DB.tasks.find((x) => x.id === id);
+          t.status = t.status === "Готово" ? "Запланировано" : "Готово";
+          if (t.status === "Готово") {
+            act("task", "Задача выполнена: " + t.title);
+            toast("Задача выполнена ✓");
+          }
+          save();
+          rTasks();
+          updateBellBadge();
+        },
+        "task-edit": (id) => mTask(DB.tasks.find((x) => x.id === id)),
+        "task-del": async (id) => {
+          const t = DB.tasks.find((x) => x.id === id);
+          if (await ask(`Удалить задачу «${esc(t.title)}»?`)) {
+            DB.tasks = DB.tasks.filter((x) => x.id !== id);
+            save();
+            route();
+            toast("Задача удалена");
+          }
+        },
+        /* leads */
+        "lead-edit": (id) => mLead(DB.leads.find((x) => x.id === id)),
+        "lead-del": async (id) => {
+          const l = DB.leads.find((x) => x.id === id);
+          if (await ask(`Удалить лид «${esc(l.name)}»?`)) {
+            DB.leads = DB.leads.filter((x) => x.id !== id);
+            act("lead", "Удалён лид: " + l.name);
+            save();
+            route();
+            toast("Лид удалён");
+          }
+        },
+        "lead-next": (id) => {
+          const l = DB.leads.find((x) => x.id === id);
+          moveLead(id, Math.min(6, l.stage + 1));
+        },
+        "lead-prev": (id) => {
+          const l = DB.leads.find((x) => x.id === id);
+          moveLead(id, Math.max(0, l.stage - 1));
+        },
+        /* analytics, history */
+        "an-period": (id) => {
+          UI.anPeriod = +id;
+          rAnalytics();
+        },
+        "hist-f": (id) => {
+          UI.histF = id;
+          rHistory();
+        },
+        /* settings */
+        "export-json": () => {
+          const blob = new Blob(
+            [
+              JSON.stringify(
+                { user: { name: USER.name, email: USER.email }, data: DB },
+                null,
+                2,
+              ),
+            ],
+            { type: "application/json" },
+          );
+          const a = document.createElement("a");
+          a.href = URL.createObjectURL(blob);
+          a.download = "rnr-os-backup-" + todayStr() + ".json";
+          a.click();
+          toast("Резервная копия скачана");
+        },
+        "wipe-data": async () => {
+          if (
+            await ask(
+              "Удалить <b>все данные</b> аккаунта: цели, финансы, клиентов, проекты, задачи, лидов?<br>Это действие нельзя отменить.",
+              { ok: "Удалить всё", title: "Очистка данных" },
+            )
+          ) {
+            DB = emptyDB();
+            save();
+            route();
+            toast("Все данные удалены");
+          }
+        },
+      };
+      let currentGoalHistId = null;
+      // фикс обработчика сортировки истории цели
+      ACTS["gh-sort"] = (id) => {
+        UI.ghSort = id;
+        if (currentGoalHistId) mGoalHistory(currentGoalHistId);
+      };
+      const _ghOld = ACTS["goal-history"];
+      ACTS["goal-history"] = (id) => {
+        currentGoalHistId = id;
+        _ghOld(id);
+      };
+      const _tOld = ACTS["qa-topup"];
+      ACTS["qa-topup"] = (id) => _tOld(id);
+
+      document.addEventListener("click", (e) => {
+        const el = e.target.closest("[data-act]");
+        if (!el) return;
+        const act = el.dataset.act;
+        if (
+          !["bell-toggle", "menu-toggle"].includes(act) &&
+          !el.closest(".bell-panel") &&
+          !el.closest(".menu-panel")
+        )
+          closePanel();
+        if (ACTS[act]) {
+          e.stopPropagation();
+          ACTS[act](el.dataset.id, e);
+        }
+      });
+      function closePanel() {
+        $("#bell-panel")?.classList.remove("open");
+        $("#user-menu")?.classList.remove("open");
+      }
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest(".bell-wrap") && !e.target.closest(".menu-wrap"))
+          closePanel();
+      });
+
+      document.addEventListener("submit", (e) => {
+        const f = e.target;
+        if (f.dataset.form && FORMS[f.dataset.form]) {
+          e.preventDefault();
+          FORMS[f.dataset.form](new FormData(f), f);
+        }
+      });
+      document.addEventListener("input", (e) => {
+        if (
+          e.target.closest("#alloc-rows") ||
+          e.target.name === "biz" ||
+          e.target.name === "reserve"
+        )
+          updAllocSum();
+      });
+      document.addEventListener("change", (e) => {
+        const el = e.target.closest("[data-live]");
+        if (!el) return;
+        const k = el.dataset.live,
+          v = el.dataset.id !== undefined ? el.dataset.id : el.value;
+        if (k === "client-search") {
+          UI.clientSearch = v;
+          rClients();
+          const inp = $("[data-live=client-search]");
+          if (inp) {
+            inp.focus();
+            inp.setSelectionRange(v.length, v.length);
+          }
+        } else if (k === "client-status") {
+          UI.clientStatus = v;
+          rClients();
+        } else if (k === "client-sort") {
+          UI.clientSort = v;
+          rClients();
+        } else if (k === "task-proj") {
+          UI.taskProj = v;
+          rTasks();
+        } else if (k === "task-status") {
+          const t = DB.tasks.find((x) =>
+            (x.id === v) === undefined ? "" : el.dataset.id,
+          );
+          const tt = DB.tasks.find((x) => x.id === el.dataset.id);
+          if (tt) {
+            tt.status = el.value;
+            if (el.value === "Готово") {
+              toast("Задача выполнена ✓");
+              act("task", "Задача выполнена: " + tt.title);
+            }
+            save();
+            rTasks();
+            updateBellBadge();
+          }
+        } else if (k === "gh-src") {
+          UI.ghSrc = v;
+          if (currentGoalHistId) mGoalHistory(currentGoalHistId);
+        } else if (k === "set-currency") {
+          DB.settings.currency = v;
+          save();
+          route();
+        } else if (k === "set-rate") {
+          const r = pm(v);
+          if (r > 0) {
+            DB.settings.usdRate = r;
+            save();
+            toast("Курс обновлён");
+          }
+        } else if (k === "set-notif") {
+          DB.settings[v] = el.checked;
+          save();
+          toast("Настройки уведомлений сохранены");
+          updateBellBadge();
+        }
+      });
+      function updateBellBadge() {
+        const b = $(".bell-dot");
+        const unread =
+          USER && DB
+            ? computeNotifs().filter((n) => !DB.notifRead[n.key]).length
+            : 0;
+        if (b) b.remove();
+        if (unread) {
+          const btn = $("[data-act=bell-toggle]");
+          if (btn)
+            btn.insertAdjacentHTML(
+              "beforeend",
+              `<span class="bell-dot">${unread}</span>`,
+            );
+        }
+      }
+
+      /* ============================================================
+   ТЕМА / РОУТЕР / ЗАПУСК
+============================================================ */
+      function applyTheme() {
+        const t = DB?.settings.theme || "light";
+        const dark =
+          t === "dark" ||
+          (t === "system" &&
+            matchMedia("(prefers-color-scheme: dark)").matches);
+        document.documentElement.dataset.theme = dark ? "dark" : "light";
+      }
+      matchMedia("(prefers-color-scheme: dark)").addEventListener?.(
+        "change",
+        () => applyTheme(),
+      );
+
+      const ROUTES = {
+        dashboard: rDashboard,
+        goals: rGoals,
+        finance: rFinance,
+        clients: rClients,
+        projects: rProjects,
+        tasks: rTasks,
+        sales: rSales,
+        analytics: rAnalytics,
+        history: rHistory,
+        settings: rSettings,
+      };
+      function route() {
+        if (!USER) {
+          pageAuth("login");
+          return;
+        }
+        applyTheme();
+        const page = currentPage();
+        renderShell(page);
+        ROUTES[page]();
+      }
+      window.addEventListener("hashchange", route);
+
+      (function boot() {
+        const sid = Store.session();
+        if (sid) loadUser(sid);
+        route();
+      })();
+    </script>
+  </body>
+</html>
